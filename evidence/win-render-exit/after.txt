@@ -1,0 +1,99 @@
+Harness: C:\Users\<user>\vesuvius\winvc3d\exitprobe.ps1 (Start-Process with redirected stdout/stderr, WaitForExit polled for 120 s, then CIM snapshot and CIM Terminate of the PID it started). Machine: Windows 11 Home 10.0.26200 laptop, 2026-10-22. Segment: run1\out\auto_grown_20261022113620655, grown by the README vc_grow_seg_from_seed example on PHercParis4 (seed 1408 1408 1024, 8 gens).
+
+Fixed build: Rano200/villa branch fix/win-render-exit d7a8b6e (= 72600fe + this fix), CI run 39819763450 (workflow_dispatch, VC3D Windows Installer), artifact VC3D-d7a8b6e-2026-10-22-win64.zip, downloaded to winvc3d\fixbuild\run-39819763450.
+
+=== AFTER run 1
+available_MB_before: 3730
+exe: C:\Users\<user>\vesuvius\winvc3d\fixbuild\run-39819763450\x\VC3D-d7a8b6e-2026-10-22-win64\bin\vc_render_tifxyz.exe
+exe_sha256: 4AD1AB45766E549DAF4E0DEC2249228004F5258E025A6820DFE767093EAA70C3
+cwd: C:\Users\<user>\vesuvius\winvc3d
+command: "C:\Users\<user>\vesuvius\winvc3d\fixbuild\run-39819763450\x\VC3D-d7a8b6e-2026-10-22-win64\bin\vc_render_tifxyz.exe" -v https://vesuvius-challenge-open-data.s3.amazonaws.com/PHercParis4/volumes/20260310173927-45.532um-11.0m-110keV-masked.zarr -s C:\Users\<user>\vesuvius\winvc3d\run1\out\auto_grown_20261022113620655 --scale 1 -g 0 --cache-gb 1 -n 1 --tif-output C:\Users\<user>\vesuvius\winvc3d\proof\after-fix\tif
+started_pid: 36596 at 2026-10-22T13:36:44.1281873-04:00
+RESULT: process terminated on its own after 3.6 s, exit code 0
+--- stdout (last 8 lines)
+Remote zarr streaming: https://vesuvius-challenge-open-data.s3.amazonaws.com/PHercParis4/volumes/20260310173927-45.532um-11.0m-110keV-masked.zarr
+zarr dataset size for group 0 [4066 2264 2264 ]
+Source dtype: uint8
+chunk shape [128 128 128 ]
+Voxel size (remote volume metadata): 45.532 micrometer
+Rendering: C:\Users\<user>\vesuvius\winvc3d\run1\out\auto_grown_20261022113620655 -> C:\Users\<user>\vesuvius\winvc3d\proof\after-fix\tif (tif)
+ds_level=0 ds_scale=1 sA=1 Pg=1 render_scale=1
+rendering 360x360 at scale 1 crop [360×360 from (0,0)]
+--- stderr (last 8 lines)
+
+  band 3/3 (100%)  155.4 bands/s  0m00s  eta 0m00s
+--- output tifs
+00.tif 58042 bytes sha256 9A667B74DE94C93CF67542A3292939EA846F5A6E655E4BF217B4DB7DDF9E840C
+
+=== AFTER run 2
+available_MB_before: 3782
+exe: C:\Users\<user>\vesuvius\winvc3d\fixbuild\run-39819763450\x\VC3D-d7a8b6e-2026-10-22-win64\bin\vc_render_tifxyz.exe
+exe_sha256: 4AD1AB45766E549DAF4E0DEC2249228004F5258E025A6820DFE767093EAA70C3
+cwd: C:\Users\<user>\vesuvius\winvc3d
+command: "C:\Users\<user>\vesuvius\winvc3d\fixbuild\run-39819763450\x\VC3D-d7a8b6e-2026-10-22-win64\bin\vc_render_tifxyz.exe" -v https://vesuvius-challenge-open-data.s3.amazonaws.com/PHercParis4/volumes/20260310173927-45.532um-11.0m-110keV-masked.zarr -s C:\Users\<user>\vesuvius\winvc3d\run1\out\auto_grown_20261022113620655 --scale 1 -g 0 --cache-gb 1 -n 1 --tif-output C:\Users\<user>\vesuvius\winvc3d\proof\after-fix-2\tif
+started_pid: 5080 at 2026-10-22T13:36:55.3471072-04:00
+RESULT: process terminated on its own after 2.1 s, exit code 0
+--- stdout (last 8 lines)
+Remote zarr streaming: https://vesuvius-challenge-open-data.s3.amazonaws.com/PHercParis4/volumes/20260310173927-45.532um-11.0m-110keV-masked.zarr
+zarr dataset size for group 0 [4066 2264 2264 ]
+Source dtype: uint8
+chunk shape [128 128 128 ]
+Voxel size (remote volume metadata): 45.532 micrometer
+Rendering: C:\Users\<user>\vesuvius\winvc3d\run1\out\auto_grown_20261022113620655 -> C:\Users\<user>\vesuvius\winvc3d\proof\after-fix-2\tif (tif)
+ds_level=0 ds_scale=1 sA=1 Pg=1 render_scale=1
+rendering 360x360 at scale 1 crop [360×360 from (0,0)]
+--- stderr (last 8 lines)
+
+  band 3/3 (100%)  147.2 bands/s  0m00s  eta 0m00s
+--- output tifs
+00.tif 58042 bytes sha256 9A667B74DE94C93CF67542A3292939EA846F5A6E655E4BF217B4DB7DDF9E840C
+
+=== AFTER run 3
+available_MB_before: 3769
+exe: C:\Users\<user>\vesuvius\winvc3d\fixbuild\run-39819763450\x\VC3D-d7a8b6e-2026-10-22-win64\bin\vc_render_tifxyz.exe
+exe_sha256: 4AD1AB45766E549DAF4E0DEC2249228004F5258E025A6820DFE767093EAA70C3
+cwd: C:\Users\<user>\vesuvius\winvc3d
+command: "C:\Users\<user>\vesuvius\winvc3d\fixbuild\run-39819763450\x\VC3D-d7a8b6e-2026-10-22-win64\bin\vc_render_tifxyz.exe" -v https://vesuvius-challenge-open-data.s3.amazonaws.com/PHercParis4/volumes/20260310173927-45.532um-11.0m-110keV-masked.zarr -s C:\Users\<user>\vesuvius\winvc3d\run1\out\auto_grown_20261022113620655 --scale 1 -g 0 --cache-gb 1 -n 1 --tif-output C:\Users\<user>\vesuvius\winvc3d\proof\after-fix-3\tif
+started_pid: 28356 at 2026-10-22T13:36:58.4655699-04:00
+RESULT: process terminated on its own after 3 s, exit code 0
+--- stdout (last 8 lines)
+Remote zarr streaming: https://vesuvius-challenge-open-data.s3.amazonaws.com/PHercParis4/volumes/20260310173927-45.532um-11.0m-110keV-masked.zarr
+zarr dataset size for group 0 [4066 2264 2264 ]
+Source dtype: uint8
+chunk shape [128 128 128 ]
+Voxel size (remote volume metadata): 45.532 micrometer
+Rendering: C:\Users\<user>\vesuvius\winvc3d\run1\out\auto_grown_20261022113620655 -> C:\Users\<user>\vesuvius\winvc3d\proof\after-fix-3\tif (tif)
+ds_level=0 ds_scale=1 sA=1 Pg=1 render_scale=1
+rendering 360x360 at scale 1 crop [360×360 from (0,0)]
+--- stderr (last 8 lines)
+
+  band 3/3 (100%)  129.8 bands/s  0m00s  eta 0m00s
+--- output tifs
+00.tif 58042 bytes sha256 9A667B74DE94C93CF67542A3292939EA846F5A6E655E4BF217B4DB7DDF9E840C
+
+Comparison: 00.tif is 58042 bytes, sha256 9A667B74DE94C93CF67542A3292939EA846F5A6E655E4BF217B4DB7DDF9E840C in all five runs (release, main build, 3x fixed build): output byte-identical.
+
+# Added 10-22 (lead): vc_zarr_download_region, same exit bug, same fix
+# cmd (run from winvc3d/p2): vc_zarr_download_region.exe --project min.volpkg.json --url https://vesuvius-challenge-open-data.s3.amazonaws.com/PHercParis4/volumes/20260310173927-45.532um-11.0m-110keV-masked.zarr --level 1 --zmin 1000 --zmax 1100 --ymin 1300 --ymax 1500 --xmin 1300 --xmax 1500 -n
+# unfixed main 5f380c3: printed "Region size: 508.06 KiB (520251 bytes across 1 level)", then still alive; terminated by PID 32656 at 208 s
+# fixed d7a8b6e:        printed the same line, exited on its own, rc=0, 2 s
+
+# Added 10-22: vc_objrefine and vc_grow_seg_from_seed error path
+# Data: copies in winvc3d/fixbuild/exit2/ (vol ü.zarr and loose/segA_copy copied from guiproof/p5/run1; originals untouched). Params JSON written by hand to match what VC3D writes (AlphaCompRefineRequest defaults; buildResumeLocalBaseParamsJson with empty normal_grid_path). Scripts: exit2/run.ps1 (Start-Process -PassThru, WaitForExit polled every 5 s, up to 100 s). Control = main 5f380c3 package, fixed = d7a8b6e package. Free RAM 2.3-2.8 GB before each run, deadlock.exe not running.
+# Hung PIDs terminated by CIM Terminate on recorded PIDs only: 12904, 34520. (A first control objrefine attempt, PID 3728, was alive at last check, then gone when I looked again; not counted, redone below as PID 12904.)
+
+## 1. vc_objrefine (VC3D "refine_alpha_comp"), local zarr
+# cmd (both builds, <bin> = package bin dir):
+#   <bin>\vc_objrefine.exe "...\exit2\data ü 日本 sp\vol ü.zarr" "...\exit2\data ü 日本 sp\loose\segA_copy" ".../exit2/out-<label>-vc_objrefine/segA_copy_refined" "...\exit2\refine_params.json"
+# params: {"refine":true,"start":-6.0,"stop":30.0,"step":2.0,"low":26,"high":255,"border_off":1.0,"r":3,"gen_vertexcolor":false,"overwrite":true,"reader_scale":0.5,"scale_group":"1"}
+# stdout both builds: zarr dataset size for scale group 1 [2033, 1132, 1132] / chunk shape shape [128, 128, 128] / chunk cache size (bytes) 10000000000 / processing surface ... /  took N s ; output meta.json x.tif y.tif z.tif written
+# control 5f380c3, PID 12904: " took 7.86762 s", last stdout line at 8 s after start, then alive for the whole 100 s window (92 s after the last line): threads=1, CPU 9.16 s -> 9.16 s (no change across 18 polls). HUNG. Terminated by PID.
+# fixed d7a8b6e, PID 35340: " took 8.90833 s", exited on its own 0.07 s after the last line, 10.3 s wall, exit code 0. EXITS.
+
+## 2. vc_grow_seg_from_seed, "no usable voxel size" error path (return EXIT_FAILURE)
+# cmd (both builds): OMP_NUM_THREADS=2 <bin>\vc_grow_seg_from_seed.exe -v "...\exit2\data ü 日本 sp\vol ü.zarr" -p "...\exit2\resume_params.json" --resume "...\exit2\data ü 日本 sp\loose\segA_copy" -t ".../exit2/out-<label>-vc_grow_seg_from_seed" --resume-opt local
+# params: {"normal_grid_path":"","max_gen":1,"generations":1,"resume_local_opt_step":20,"resume_local_opt_radius":40,"resume_local_max_iters":1000,"resume_local_dense_qr":false}
+# stdout both: zarr dataset size for scale group 0 [4066, 2264, 2264] / chunk shape shape [128, 128, 128] / mode: seed / step size: 20 / min_area_cm: 0.3 / voxelsize: 0 / tgt_overlap_count: 20
+# stderr both: ERROR: volume reports no usable voxel size (0 um/voxel), so min_area_cm 0.3 cannot be evaluated.
+# control 5f380c3, PID 34520: printed the error, then alive for the whole 100 s window (~100 s after the last line): threads=1, CPU 0.08 s -> 0.08 s over 20 polls. HUNG. Terminated by PID.
+# fixed d7a8b6e, PID 18736: same output, exited on its own, exit code 1 (the tool's own EXIT_FAILURE), 0.7 s wall. EXITS.

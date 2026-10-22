@@ -1,0 +1,43 @@
+Fork CI for branch fix/win-gui-tools (commit 0fb5a65 = upstream main 5f380c3 + 1 commit), fork-internal PR Rano200/villa#6
+https://github.com/Rano200/villa/pull/6
+Fork main was already at upstream main 5f380c3 when synced (gh repo sync) before the push, so the PR compares against a current base.
+
+Windows
+- 39832809875  VC3D Windows Installer  workflow_dispatch on fix/win-gui-tools  SUCCESS
+  Configure, Build, Test unified browser Windows paths, Test MCP Windows support, Package (NSIS + ZIP),
+  Upload installer artifact, Smoke test packaged tree: all success. Artifact VC3D-windows-installer
+  (VC3D-0fb5a65-2026-10-22-win64.zip) is the exe used in after.txt, downloaded to
+  C:\Users\<user>\vesuvius\winvc3d\fixbuild\gui-39832809875
+- 39832812749  VC3D Windows Installer  pull_request  Compile (MSYS2 UCRT64)  SUCCESS
+- 39819740280  VC3D Windows Installer  push on fork main 5f380c3 (control build, unfixed, from the
+  win-render-exit work; 5f380c3 is exactly this fix's parent)  SUCCESS
+  Artifact VC3D-5f380c3-2026-10-22-win64.zip is the exe used for BEFORE 2 in before.txt.
+
+Linux / macOS
+- 39832812755  Continuous Integration (CI), pull_request: SUCCESS on attempt 2.
+  Attempt 1 failed in "Linux base tests (Clang QuickBuild)" on one test, test_zarr_chunk_fetcher:
+  "filesystem error: cannot remove: Directory not empty [/tmp/vc_zcf_mirror_shard_inner_missing_cache_...]"
+  (a vc-core temp-dir cleanup in a test this change does not touch; 196 of 197 passed). A rerun of the
+  failed job passed. Jobs that ran: Linux base tests, Linux Lasagna/fiber/GUI tests, Linux VC3D compile
+  and smoke, Synthetic rendering regression (GCC Release / Valgrind replay), macOS compile (macos-15,
+  Homebrew LLVM): all pass. The non-Windows builds compile the new code with an empty suffix.
+- 39832812768  CodeQL: pass
+- 39832812803  VC3D Linux AppImage: pass;  39832812718  VC3D macOS App: pass
+- 39832812918  Large PR review gate: pass (2 files)
+- 39832812837  Test vesuvius Python: still running at write time (unrelated subproject)
+
+Real-data before/after through the Agent Bridge, offscreen (before.txt, after.txt)
+- BEFORE: release 5416c67 and main 5f380c3: render.tifxyz -> -32006 "vc_render_tifxyz not found or not
+  executable: <bin>/vc_render_tifxyz"; tracer.run_trace -> -32005 "Failed to start Run Trace.", no child.
+- AFTER: fixed build 0fb5a65: render.tifxyz -> vc_render_tifxyz.exe completed successfully, 1020x1020
+  layers\00.tif; tracer.run_trace -> vc_grow_seg_from_segments.exe started (and, with a paths\ folder in
+  the project, completed successfully and wrote two tifxyz surfaces).
+- Offscreen plugin: qoffscreen.dll from MSYS2 mingw-w64-ucrt-x86_64-qt6-base-6.11.1-1, loaded through
+  QT_QPA_PLATFORM_PLUGIN_PATH from C:\Users\<user>\vesuvius\winvc3d\guiproof\qpa; that package's Qt6Core.dll
+  and Qt6Gui.dll are byte-identical to the ones in all three VC3D zips used.
+- Probe script: C:\Users\<user>\vesuvius\winvc3d\guiproof\bridge_probe.py
+  (python -I bridge_probe.py <VC3D.exe> <run dir> <label> --trace)
+
+Regression test: none added. The Windows workflow (vc3d-windows.yml) runs only
+`ctest -R '^unified_browser_dialog$'` on Windows, so a new ctest target would not run on the one
+platform where this matters, and Linux/macOS do not have the bug.

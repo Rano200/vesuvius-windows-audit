@@ -1,0 +1,33 @@
+# Windows 11, Python 3.14. Command: uv run --frozen --no-sync pytest tests/ink_detection/test_unicode_path_label_read.py tests/ink_detection/test_label_zarr_preprocessing.py tests/ink_detection/test_curation_preprocessing.py src/vesuvius/tifxyz/test_labels.py -q -p no:cacheprovider
+# Extra packages (uv pip install after sync): opencv-python-headless tifffile imagecodecs pillow fastremap numba scipy tqdm connected-components-3d
+# main e2254ebe0 (the four call sites reverted; helper module and new test file present, so only the create_label_zarrs tests can fail)
+tmp_path = WindowsPath('C:/Users/<user>/AppData/Local/Temp/pytest-of-user/pytest-61/test_create_label_zarrs_reads_0')
+folder = 'Scan ü'
+tests\ink_detection\test_unicode_path_label_read.py:62: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+path = WindowsPath('C:/Users/<user>/AppData/Local/Temp/pytest-of-user/pytest-61/test_create_label_zarrs_reads_0/Scan ü/20250101000000_inklabels.png')
+src\vesuvius\ink_detection\preprocessing\create_label_zarrs.py:184: RuntimeError
+_______ test_create_label_zarrs_reads_png_in_non_ascii_folder[Jos\xe9] ________
+tmp_path = WindowsPath('C:/Users/<user>/AppData/Local/Temp/pytest-of-user/pytest-61/test_create_label_zarrs_reads_1')
+folder = 'José'
+tests\ink_detection\test_unicode_path_label_read.py:62: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+path = WindowsPath('C:/Users/<user>/AppData/Local/Temp/pytest-of-user/pytest-61/test_create_label_zarrs_reads_1/José/20250101000000_inklabels.png')
+src\vesuvius\ink_detection\preprocessing\create_label_zarrs.py:184: RuntimeError
+_____ test_create_label_zarrs_reads_png_in_non_ascii_folder[\u5b57\u5b57] _____
+tmp_path = WindowsPath('C:/Users/<user>/AppData/Local/Temp/pytest-of-user/pytest-61/test_create_label_zarrs_reads_2')
+folder = '\u5b57\u5b57'
+tests\ink_detection\test_unicode_path_label_read.py:62: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+path = WindowsPath('C:/Users/<user>/AppData/Local/Temp/pytest-of-user/pytest-61/test_create_label_zarrs_reads_2/\u5b57\u5b57/20250101000000_inklabels.png')
+src\vesuvius\ink_detection\preprocessing\create_label_zarrs.py:184: RuntimeError
+=========================== short test summary info ===========================
+FAILED tests/ink_detection/test_unicode_path_label_read.py::test_create_label_zarrs_reads_png_in_non_ascii_folder[Scan \xfc]
+FAILED tests/ink_detection/test_unicode_path_label_read.py::test_create_label_zarrs_reads_png_in_non_ascii_folder[Jos\xe9]
+FAILED tests/ink_detection/test_unicode_path_label_read.py::test_create_label_zarrs_reads_png_in_non_ascii_folder[\u5b57\u5b57]
+3 failed, 74 passed in 16.56s
+
+# branch fix/win-imread-unicode
+........................................................................ [ 93%]
+.....                                                                    [100%]
+77 passed in 14.92s

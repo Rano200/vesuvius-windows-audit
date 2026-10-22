@@ -1,0 +1,129 @@
+# Windows 11, Python 3.14. Command: uv run --frozen --no-sync pytest tests/ink_detection/test_merge_predictions_cleanup.py tests/ink_detection/test_curation_preprocessing.py -q -p no:cacheprovider
+# main e2254ebe0 (src reverted, new test file present)
+
+FFF...................................                                   [100%]
+================================== FAILURES ===================================
+_______ test_merge_predictions_leaves_no_temp_memmaps[confidence_vote] ________
+
+tmp_path = WindowsPath('C:/Users/<user>/AppData/Local/Temp/pytest-of-user/pytest-51/test_merge_predictions_leaves_0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x00000229DEE36780>
+method = 'confidence_vote'
+
+    @pytest.mark.parametrize("method", merge_predictions.MERGE_METHOD_CHOICES)
+    def test_merge_predictions_leaves_no_temp_memmaps(
+        tmp_path: Path, monkeypatch: pytest.MonkeyPatch, method: str
+    ) -> None:
+        temp_dir = tmp_path / "tmp"
+        temp_dir.mkdir()
+        monkeypatch.setattr(tempfile, "tempdir", str(temp_dir))
+    
+        preds = tmp_path / "preds"
+        preds.mkdir()
+        rng = np.random.default_rng(0)
+        # A compressed TIFF and a PNG both go through temp memmaps.
+        tifffile.imwrite(
+            preds / "a_forward_x.tif",
+            rng.integers(0, 256, (64, 48), dtype=np.uint8),
+            compression="lzw",
+        )
+        Image.fromarray(rng.integers(0, 256, (64, 48), dtype=np.uint8)).save(preds / "b_forward_x.png")
+    
+        assert merge_predictions.main([str(preds), "--workers", "1", "--direction", "forward", "--method", method]) == 0
+    
+        assert (preds / f"merged_{method}_forward.tif").is_file()
+        gc.collect()
+>       assert sorted(p.name for p in temp_dir.iterdir()) == []
+E       AssertionError: assert ['merge_predi...06vh9.memmap'] == []
+E         
+E         Left contains 2 more items, first extra item: 'merge_predictions_out_jr51pmq_.memmap'
+E         Use -v to get more diff
+
+tests\ink_detection\test_merge_predictions_cleanup.py:38: AssertionError
+merged_outputs=1 skipped_directions=0
+
+__________ test_merge_predictions_leaves_no_temp_memmaps[soft_mean] ___________
+
+tmp_path = WindowsPath('C:/Users/<user>/AppData/Local/Temp/pytest-of-user/pytest-51/test_merge_predictions_leaves_1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x00000229B0CE28B0>
+method = 'soft_mean'
+
+    @pytest.mark.parametrize("method", merge_predictions.MERGE_METHOD_CHOICES)
+    def test_merge_predictions_leaves_no_temp_memmaps(
+        tmp_path: Path, monkeypatch: pytest.MonkeyPatch, method: str
+    ) -> None:
+        temp_dir = tmp_path / "tmp"
+        temp_dir.mkdir()
+        monkeypatch.setattr(tempfile, "tempdir", str(temp_dir))
+    
+        preds = tmp_path / "preds"
+        preds.mkdir()
+        rng = np.random.default_rng(0)
+        # A compressed TIFF and a PNG both go through temp memmaps.
+        tifffile.imwrite(
+            preds / "a_forward_x.tif",
+            rng.integers(0, 256, (64, 48), dtype=np.uint8),
+            compression="lzw",
+        )
+        Image.fromarray(rng.integers(0, 256, (64, 48), dtype=np.uint8)).save(preds / "b_forward_x.png")
+    
+        assert merge_predictions.main([str(preds), "--workers", "1", "--direction", "forward", "--method", method]) == 0
+    
+        assert (preds / f"merged_{method}_forward.tif").is_file()
+        gc.collect()
+>       assert sorted(p.name for p in temp_dir.iterdir()) == []
+E       AssertionError: assert ['merge_predi...i79fs.memmap'] == []
+E         
+E         Left contains 2 more items, first extra item: 'merge_predictions_out_bnar36ha.memmap'
+E         Use -v to get more diff
+
+tests\ink_detection\test_merge_predictions_cleanup.py:38: AssertionError
+merged_outputs=1 skipped_directions=0
+
+_________ test_merge_predictions_leaves_no_temp_memmaps[soft_median] __________
+
+tmp_path = WindowsPath('C:/Users/<user>/AppData/Local/Temp/pytest-of-user/pytest-51/test_merge_predictions_leaves_2')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x00000229DF2939B0>
+method = 'soft_median'
+
+    @pytest.mark.parametrize("method", merge_predictions.MERGE_METHOD_CHOICES)
+    def test_merge_predictions_leaves_no_temp_memmaps(
+        tmp_path: Path, monkeypatch: pytest.MonkeyPatch, method: str
+    ) -> None:
+        temp_dir = tmp_path / "tmp"
+        temp_dir.mkdir()
+        monkeypatch.setattr(tempfile, "tempdir", str(temp_dir))
+    
+        preds = tmp_path / "preds"
+        preds.mkdir()
+        rng = np.random.default_rng(0)
+        # A compressed TIFF and a PNG both go through temp memmaps.
+        tifffile.imwrite(
+            preds / "a_forward_x.tif",
+            rng.integers(0, 256, (64, 48), dtype=np.uint8),
+            compression="lzw",
+        )
+        Image.fromarray(rng.integers(0, 256, (64, 48), dtype=np.uint8)).save(preds / "b_forward_x.png")
+    
+        assert merge_predictions.main([str(preds), "--workers", "1", "--direction", "forward", "--method", method]) == 0
+    
+        assert (preds / f"merged_{method}_forward.tif").is_file()
+        gc.collect()
+>       assert sorted(p.name for p in temp_dir.iterdir()) == []
+E       AssertionError: assert ['merge_predi...cw4e_.memmap'] == []
+E         
+E         Left contains 2 more items, first extra item: 'merge_predictions_82idxkjg.memmap'
+E         Use -v to get more diff
+
+tests\ink_detection\test_merge_predictions_cleanup.py:38: AssertionError
+merged_outputs=1 skipped_directions=0
+
+=========================== short test summary info ===========================
+FAILED tests/ink_detection/test_merge_predictions_cleanup.py::test_merge_predictions_leaves_no_temp_memmaps[confidence_vote]
+FAILED tests/ink_detection/test_merge_predictions_cleanup.py::test_merge_predictions_leaves_no_temp_memmaps[soft_mean]
+FAILED tests/ink_detection/test_merge_predictions_cleanup.py::test_merge_predictions_leaves_no_temp_memmaps[soft_median]
+3 failed, 35 passed in 8.69s
+
+
+# branch fix/win-merge-preds
+......................................                                   [100%]
+38 passed in 7.18s

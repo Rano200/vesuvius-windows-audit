@@ -1,0 +1,83 @@
+Harness: C:\Users\<user>\vesuvius\winvc3d\mergeprobe.ps1 (copies p2\vp3 inputs into a fresh run dir, strips every VC3D/winvc3d/vesuvius entry from PATH so the PATH fallback cannot rescue a run, Start-Process with redirected stdout/stderr and cwd = the run dir, WaitForExit polled for 300 s, would CIM Terminate only the PID it started and its recorded children). Machine: Windows 11 Home 10.0.26200 laptop, 2026-10-22.
+Data: merge.json {"rows":["segA segB"]}; segA = a segment grown by vc_grow_seg_from_seed (README example, params gens=50) on PHercParis4 20260310173927-45.532um (remote OME-Zarr), seed 1408 1408 1024, 102x102 grid, 9604 valid; segB = a copy of segA. (Two overlapping segments from two different seeds were tried first in probe 2; the tool dropped the edge as not same-sheet, which is platform-neutral, so the self-merge is the repro that reaches the last step.)
+
+=== BEFORE 1: unfixed main, Rano200/villa fork main 5f380c3 (= upstream main 5f380c3, the fix's parent), CI run 39819740280 artifact VC3D-5f380c3-2026-10-22-win64.zip; default sibling lookup
+available_MB_before: 4813
+PATH entries matching VC3D|winvc3d|vesuvius: 0
+PATH lookup of vc_obj2tifxyz_legacy: not found
+exe: C:\Users\<user>\vesuvius\winvc3d\fixbuild\run-39819740280-main\x\VC3D-5f380c3-2026-10-22-win64\bin\vc_merge_tifxyz.exe
+exe_sha256: F19A0336CDAFFD48A34162AC11ACF6338F842A205AFAC877F9E3F14F34986A86
+cwd: C:\Users\<user>\vesuvius\winvc3d\mproof\before-main-default
+command: "C:\Users\<user>\vesuvius\winvc3d\fixbuild\run-39819740280-main\x\VC3D-5f380c3-2026-10-22-win64\bin\vc_merge_tifxyz.exe" --merge C:\Users\<user>\vesuvius\winvc3d\mproof\before-main-default\merge.json
+started_pid: 34280 at 2026-10-22T14:07:03.5675598-04:00
+child processes seen: 
+RESULT: process terminated on its own after 17.8 s, exit code 1
+--- stdout (last 6 lines)
+  segB blend mask: blended=9025  preserved_private=579
+  segB overlap shift (vox): p50=0.0  p95=0.0  max=0.0  (cells=9025)
+  segA: 9604 verts, 18818 tris
+  segB: 9604 verts, 18818 tris
+  total: 19208 verts, 37636 tris
+rasterizing OBJ -> "C:\\Users\\<user>\\vesuvius\\winvc3d\\mproof\\before-main-default\\paths\\segA_merged" (step=20)
+--- stderr
+The filename, directory name, or volume label syntax is incorrect.
+vc_obj2tifxyz_legacy failed (rc=1)
+--- paths\ after the run
+segA\
+segB\
+segA_merged.obj 2393276 bytes
+no tifxyz output dir paths\segA_merged
+
+=== BEFORE 2: same unfixed build, --obj2tifxyz <absolute path to the sibling .exe>
+available_MB_before: 5051
+PATH entries matching VC3D|winvc3d|vesuvius: 0
+PATH lookup of vc_obj2tifxyz_legacy: not found
+exe: C:\Users\<user>\vesuvius\winvc3d\fixbuild\run-39819740280-main\x\VC3D-5f380c3-2026-10-22-win64\bin\vc_merge_tifxyz.exe
+exe_sha256: F19A0336CDAFFD48A34162AC11ACF6338F842A205AFAC877F9E3F14F34986A86
+cwd: C:\Users\<user>\vesuvius\winvc3d\mproof\before-main-explicit
+command: "C:\Users\<user>\vesuvius\winvc3d\fixbuild\run-39819740280-main\x\VC3D-5f380c3-2026-10-22-win64\bin\vc_merge_tifxyz.exe" --merge C:\Users\<user>\vesuvius\winvc3d\mproof\before-main-explicit\merge.json --obj2tifxyz C:\Users\<user>\vesuvius\winvc3d\fixbuild\run-39819740280-main\x\VC3D-5f380c3-2026-10-22-win64\bin\vc_obj2tifxyz_legacy.exe
+started_pid: 16904 at 2026-10-22T14:07:29.2899149-04:00
+child processes seen: 
+RESULT: process terminated on its own after 18.3 s, exit code 1
+--- stdout (last 6 lines)
+  segB blend mask: blended=9025  preserved_private=579
+  segB overlap shift (vox): p50=0.0  p95=0.0  max=0.0  (cells=9025)
+  segA: 9604 verts, 18818 tris
+  segB: 9604 verts, 18818 tris
+  total: 19208 verts, 37636 tris
+rasterizing OBJ -> "C:\\Users\\<user>\\vesuvius\\winvc3d\\mproof\\before-main-explicit\\paths\\segA_merged" (step=20)
+--- stderr
+The system cannot find the path specified.
+vc_obj2tifxyz_legacy failed (rc=1)
+--- paths\ after the run
+segA\
+segB\
+segA_merged.obj 2393276 bytes
+no tifxyz output dir paths\segA_merged
+
+=== BEFORE 3: official release VC3D-5416c67-2026-10-22-win64 (ScrollPrize/villa release 'latest'); default sibling lookup
+available_MB_before: 5040
+PATH entries matching VC3D|winvc3d|vesuvius: 0
+PATH lookup of vc_obj2tifxyz_legacy: not found
+exe: C:\Users\<user>\vesuvius\winvc3d\app\VC3D-5416c67-2026-10-22-win64\bin\vc_merge_tifxyz.exe
+exe_sha256: 5BB5DA6FF57F196AAFD922DD057286B25B6C7F088211702F80B9C1D5AD839341
+cwd: C:\Users\<user>\vesuvius\winvc3d\mproof\before-release-default
+command: "C:\Users\<user>\vesuvius\winvc3d\app\VC3D-5416c67-2026-10-22-win64\bin\vc_merge_tifxyz.exe" --merge C:\Users\<user>\vesuvius\winvc3d\mproof\before-release-default\merge.json
+started_pid: 32976 at 2026-10-22T14:07:48.6870979-04:00
+child processes seen: 
+RESULT: process terminated on its own after 17 s, exit code 1
+--- stdout (last 6 lines)
+  segB blend mask: blended=9025  preserved_private=579
+  segB overlap shift (vox): p50=0.0  p95=0.0  max=0.0  (cells=9025)
+  segA: 9604 verts, 18818 tris
+  segB: 9604 verts, 18818 tris
+  total: 19208 verts, 37636 tris
+rasterizing OBJ -> "C:\\Users\\<user>\\vesuvius\\winvc3d\\mproof\\before-release-default\\paths\\segA_merged" (step=20)
+--- stderr
+The filename, directory name, or volume label syntax is incorrect.
+vc_obj2tifxyz_legacy failed (rc=1)
+--- paths\ after the run
+segA\
+segB\
+segA_merged.obj 2393276 bytes
+no tifxyz output dir paths\segA_merged

@@ -1,0 +1,67 @@
+BEFORE: VC3D on Windows refuses to start its bundled vc_* tools (render, Run Trace, ...)
+Date: 2026-10-22. Machine: Windows 11 Home 10.0.26200. No window was shown and nothing was clicked.
+
+How the run was driven
+- VC3D was launched with `--agent-bridge-name <name>` (the Agent Bridge, a JSON-RPC 2.0 server over a
+  QLocalServer, which on Windows is the named pipe \\.\pipe\<name>), QT_QPA_PLATFORM=offscreen,
+  OMP_NUM_THREADS=2, and QT_QPA_PLATFORM_PLUGIN_PATH pointing at a separate folder holding qoffscreen.dll.
+- The release zip ships only platforms\qwindows.dll, so qoffscreen.dll was taken from the MSYS2 package
+  the release is built from: mingw-w64-ucrt-x86_64-qt6-base-6.11.1-1-any.pkg.tar.zst (repo.msys2.org).
+  That package's Qt6Core.dll and Qt6Gui.dll are byte-identical (SHA-256) to the ones in both VC3D zips:
+    Qt6Core.dll C76618448D8E6ED5D1C9D21D1B160ACFB85B33BB73DBC3674DFC6A5FEF16868B
+    Qt6Gui.dll  8FB9447EA33217FCE7EE7B4807B57B3304F22C54218649824AD6C58857766112
+    qoffscreen.dll CC231D1DDBC1F6D5C4B67F734791F63C813143AB5C62010EABD4775263194A25
+  Nothing was copied into either VC3D folder.
+- Client: a small Python asyncio named-pipe client (one JSON line per request). Script:
+  C:\Users\<user>\vesuvius\winvc3d\guiproof\bridge_probe.py
+  It calls FreeConsole() before starting VC3D, because VC3D's main() does AttachConsole(ATTACH_PARENT_PROCESS)
+  and reopens stdout to CONOUT$, which would otherwise close the pipe the handshake line is read from.
+- Data: a local sparse OME-Zarr (vol.zarr, 33 files, 50 MB, declared shape 4066x2264x2264 u8) and one real
+  tifxyz segment segA (PHercParis4 45.532um, grown with the README vc_grow_seg_from_seed example, 102x102 grid).
+- Calls: ping, project.create {path, volume}, volume.open, segments.attach {segA}, segments.list,
+  render.tifxyz {segA, tif_stack, scale 0.5, 1 slice, outputDir}, then tracer.run_trace {segA, ompThreads 2}
+  with a trace_params.json in the project folder.
+
+The bundled tools exist, as .exe only
+  bin\vc_render_tifxyz.exe          exists
+  bin\vc_render_tifxyz              does not exist
+  bin\vc_grow_seg_from_segments.exe exists
+(same in both zips below)
+
+BEFORE 1: official release VC3D-5416c67-2026-10-22-win64 (C:\Users\<user>\vesuvius\winvc3d\app\...)
+  ping -> {"pid": 3608, "pong": true, "protocolVersion": 2, "version": "5416c67-2026-10-22"}
+  volume.open -> {"opened": true, "volumeId": "vol.zarr-b01d4be6e56f7028", ...}
+  segments.attach -> {"attached": true, ...};  segments.list -> [{"id": "segA", "loaded": true, ...}]
+  render.tifxyz {"segmentId": "segA", "outputFormat": "tif_stack", "scale": 0.5, "numSlices": 1, ...}
+    -> {"error": {"code": -32006, "message": "Command line tool unavailable",
+        "data": {"detail": "vc_render_tifxyz not found or not executable:
+                 C:/Users/<user>/vesuvius/winvc3d/app/VC3D-5416c67-2026-10-22-win64/bin/vc_render_tifxyz"}}}
+  tracer.run_trace {"segmentId": "segA", "ompThreads": 2, "outputDir": ...\traces}
+    -> {"error": {"code": -32005, "message": "Failed to start Run Trace",
+        "data": {"detail": "Failed to start Run Trace."}}}
+    traces\trace_params_ui.json was written, which startRunTraceImpl does right before calling
+    CommandLineToolRunner::execute(GrowSegFromSegment); execute() returned false. No child process started.
+  job.status {"source": "tool"} -> -32007 "No such job"
+  VC3D stdout: "VC3D commit: 5416c6704bbbd477fc21b9e21a24a903906311d4", "VC3D-AGENT-BRIDGE: listening
+  name=vc3d-guiproof-before-31528 path=\\.\pipe\vc3d-guiproof-before-31528", "[SurfacePanel] Loaded 1 / 1 surfaces into memory."
+
+BEFORE 2: main 5f380c3 (fork CI control build 39819740280, VC3D-5f380c3-2026-10-22-win64, same toolchain
+as the AFTER build; this commit is the fix's parent)
+  ping -> "version": "5f380c3-2026-10-22"
+  render.tifxyz -> -32006 "vc_render_tifxyz not found or not executable:
+                   C:/Users/<user>/vesuvius/winvc3d/fixbuild/run-39819740280-main/x/VC3D-5f380c3-2026-10-22-win64/bin/vc_render_tifxyz"
+  tracer.run_trace -> -32005 "Failed to start Run Trace." (traces\trace_params_ui.json written, no child process)
+
+Why (source, identical at 5416c67 and 5f380c3)
+- CommandLineToolRunner::toolName() returns applicationDirPath() + "/vc_render_tifxyz" (and
+  vc_grow_seg_from_segments, vc_tifxyz2obj, vc_obj2tifxyz_legacy, vc_objrefine, vc_grow_seg_from_seed,
+  vc_merge_tifxyz, vc_merge_patch) with no ".exe".
+- CommandLineToolRunner::execute() stops with "Tool executable not found or not executable: %1" unless
+  QFileInfo(toolCmd).exists() && isExecutable(). QFileInfo does not add ".exe", so this is always false on Windows.
+  Interactive callers (menus, context menu) get that text in a warning box; silent bridge callers get false.
+- SegmentationCommandHandler::startRenderSegment (render.tifxyz), startResumeLocalGrowPatchImpl
+  (vc_grow_seg_from_seed) and startAlphaCompRefineImpl (vc_objrefine) repeat the same extensionless check
+  before execute(), which is the -32006 text above.
+
+Full transcripts: C:\Users\<user>\vesuvius\winvc3d\guiproof\before-release\transcript.txt and
+C:\Users\<user>\vesuvius\winvc3d\guiproof\before-main\transcript.txt (plus vc3d-stdout.txt beside each).

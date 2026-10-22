@@ -1,0 +1,21 @@
+# main e2254ebe0 (call sites reverted)
+
+### main [ascii] folder='C:\\Users\\<user>\\vesuvius\\wt-win-imread-unicode-proof-main\\lab_ascii'
+$ --no-sync python -m vesuvius.ink_detection.preprocessing.create_label_zarrs C:\Users\<user>\vesuvius\wt-win-imread-unicode-proof-main\lab_ascii --workers 1
+Processed 1 image(s): 1 written, 0 skipped, 0 failed.
+
+Converting:   0%|          | 0/1 [00:00<?, ?file/s]
+Converting: 100%|██████████| 1/1 [00:00<00:00,  1.92file/s]
+Converting: 100%|██████████| 1/1 [00:00<00:00,  1.92file/s]
+EXIT 0
+
+### main [non-ascii] folder='C:\\Users\\<user>\\vesuvius\\wt-win-imread-unicode-proof-main\\lab_Scan \xfc'
+$ --no-sync python -m vesuvius.ink_detection.preprocessing.create_label_zarrs 'C:\\Users\\<user>\\vesuvius\\wt-win-imread-unicode-proof-main\\lab_Scan \xfc' --workers 1
+R C:\Users\<user>\vesuvius\wt-win-imread-unicode-proof-main\lab_Scan ü\20250919184428\20250919184428_inklabels.png: Failed to read image data from C:\Users\<user>\vesuvius\wt-win-imread-unicode-proof-main\lab_Scan ü\20250919184428\20250919184428_inklabels.png
+
+Converting:   0%|          | 0/1 [00:00<?, ?file/s][ WARN:0@0.562] global loadsave.cpp:278 cv::findDecoder imread_('C:\Users\<user>\vesuvius\wt-win-imread-unicode-proof-main\lab_Scan ü\20250919184428\20250919184428_inklabels.png'): can't open/read file: check file path/integrity
+
+Converting: 100%|██████████| 1/1 [00:00<00:00, 2387.20file/s]
+EXIT 1
+ascii: zarr ((65, 1024, 1024), dtype('uint8'), 521209)
+non-ascii: zarr MISSING

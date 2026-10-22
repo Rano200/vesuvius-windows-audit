@@ -1,0 +1,59 @@
+Harness: C:\Users\<user>\vesuvius\winvc3d\exitprobe.ps1 (Start-Process with redirected stdout/stderr, WaitForExit polled for 120 s, then CIM snapshot and CIM Terminate of the PID it started). Machine: Windows 11 Home 10.0.26200 laptop, 2026-10-22. Segment: run1\out\auto_grown_20261022113620655, grown by the README vc_grow_seg_from_seed example on PHercParis4 (seed 1408 1408 1024, 8 gens).
+
+=== BEFORE 1: official release VC3D-5416c67-2026-10-22-win64 (ScrollPrize/villa release 'latest')
+invocation: & exitprobe.ps1 -Exe <release bin>\vc_render_tifxyz.exe -OutDir proof\before-release
+available_MB_before: 5085
+exe: C:\Users\<user>\vesuvius\winvc3d\app\VC3D-5416c67-2026-10-22-win64\bin\vc_render_tifxyz.exe
+exe_sha256: 517916E4C1634C341DC34B4A96A9B43201280F4190D3DB6DDDD3796D1F5F7A90
+cwd: C:\Users\<user>\vesuvius\winvc3d
+command: "C:\Users\<user>\vesuvius\winvc3d\app\VC3D-5416c67-2026-10-22-win64\bin\vc_render_tifxyz.exe" -v https://vesuvius-challenge-open-data.s3.amazonaws.com/PHercParis4/volumes/20260310173927-45.532um-11.0m-110keV-masked.zarr -s C:\Users\<user>\vesuvius\winvc3d\run1\out\auto_grown_20261022113620655 --scale 1 -g 0 --cache-gb 1 -n 1 --tif-output C:\Users\<user>\vesuvius\winvc3d\proof\before-release\tif
+started_pid: 7880 at 2026-10-22T13:09:47.9098742-04:00
+RESULT: process still alive after 120.9 s (handle wait never signalled)
+  snapshot: ThreadCount=1 HandleCount=499 CPU ms over 5 s: 125 -> 125
+  ExitCode property already set by ExitProcess: 0
+  terminating PID 7880 (the one this script started)
+  after terminate, PID 7880 present: False
+--- stdout (last 8 lines)
+Remote zarr streaming: https://vesuvius-challenge-open-data.s3.amazonaws.com/PHercParis4/volumes/20260310173927-45.532um-11.0m-110keV-masked.zarr
+zarr dataset size for group 0 [4066 2264 2264 ]
+Source dtype: uint8
+chunk shape [128 128 128 ]
+Voxel size (remote volume metadata): 45.532 micrometer
+Rendering: C:\Users\<user>\vesuvius\winvc3d\run1\out\auto_grown_20261022113620655 -> C:\Users\<user>\vesuvius\winvc3d\proof\before-release\tif (tif)
+ds_level=0 ds_scale=1 sA=1 Pg=1 render_scale=1
+rendering 360x360 at scale 1 crop [360×360 from (0,0)]
+--- stderr (last 8 lines)
+
+  band 3/3 (100%)  156.0 bands/s  0m00s  eta 0m00s
+--- output tifs
+00.tif 58042 bytes sha256 9A667B74DE94C93CF67542A3292939EA846F5A6E655E4BF217B4DB7DDF9E840C
+
+=== BEFORE 2 (control, same CI toolchain as AFTER): Rano200/villa fork main 5f380c3, CI run 39819740280 artifact VC3D-5f380c3-2026-10-22-win64.zip. volume-cartographer/ is identical to 72600fe (the fix's parent); 5f380c3 only touches vesuvius/.
+invocation: & exitprobe.ps1 -Exe <main build bin>\vc_render_tifxyz.exe -OutDir proof\before-main
+available_MB_before: 3870
+exe: C:\Users\<user>\vesuvius\winvc3d\fixbuild\run-39819740280-main\x\VC3D-5f380c3-2026-10-22-win64\bin\vc_render_tifxyz.exe
+exe_sha256: DC6954E7EB6E0847B10B68543AF892290A79C5D0D71A42A2A7E37F6624F6BD05
+cwd: C:\Users\<user>\vesuvius\winvc3d
+command: "C:\Users\<user>\vesuvius\winvc3d\fixbuild\run-39819740280-main\x\VC3D-5f380c3-2026-10-22-win64\bin\vc_render_tifxyz.exe" -v https://vesuvius-challenge-open-data.s3.amazonaws.com/PHercParis4/volumes/20260310173927-45.532um-11.0m-110keV-masked.zarr -s C:\Users\<user>\vesuvius\winvc3d\run1\out\auto_grown_20261022113620655 --scale 1 -g 0 --cache-gb 1 -n 1 --tif-output C:\Users\<user>\vesuvius\winvc3d\proof\before-main\tif
+started_pid: 2560 at 2026-10-22T13:39:09.6869564-04:00
+RESULT: process still alive after 120 s (handle wait never signalled)
+  snapshot: ThreadCount=1 HandleCount=499 CPU ms over 5 s: 109.375 -> 109.375
+  ExitCode property already set by ExitProcess: 0
+  terminating PID 2560 (the one this script started)
+  after terminate, PID 2560 present: False
+--- stdout (last 8 lines)
+Remote zarr streaming: https://vesuvius-challenge-open-data.s3.amazonaws.com/PHercParis4/volumes/20260310173927-45.532um-11.0m-110keV-masked.zarr
+zarr dataset size for group 0 [4066 2264 2264 ]
+Source dtype: uint8
+chunk shape [128 128 128 ]
+Voxel size (remote volume metadata): 45.532 micrometer
+Rendering: C:\Users\<user>\vesuvius\winvc3d\run1\out\auto_grown_20261022113620655 -> C:\Users\<user>\vesuvius\winvc3d\proof\before-main\tif (tif)
+ds_level=0 ds_scale=1 sA=1 Pg=1 render_scale=1
+rendering 360x360 at scale 1 crop [360×360 from (0,0)]
+--- stderr (last 8 lines)
+
+  band 3/3 (100%)  152.4 bands/s  0m00s  eta 0m00s
+--- output tifs
+00.tif 58042 bytes sha256 9A667B74DE94C93CF67542A3292939EA846F5A6E655E4BF217B4DB7DDF9E840C
+
+Note: an earlier attempt at BEFORE 1 (PID 6768) also hung; the probe crashed reading CPU via Get-Process (which cannot see the stuck process), so I fixed the probe to use CIM, terminated PID 6768 by CIM, and reran. Log: winvc3d\proof-before-release-attempt1.log

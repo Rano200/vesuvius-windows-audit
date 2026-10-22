@@ -1,0 +1,35 @@
+Fork CI for branch fix/win-recompress-list (commit 7025ec6 = upstream main 5f380c3 + 1 commit), fork-internal PR Rano200/villa#5
+https://github.com/Rano200/villa/pull/5
+Fork main was synced to upstream main 5f380c3 before the push (gh repo sync; fork main sha checked = 5f380c3), so the PR compares against a current base.
+
+Windows
+- 39832268089  VC3D Windows Installer  workflow_dispatch on fix/win-recompress-list  SUCCESS
+  Build, package, smoke: all success. Artifact VC3D-windows-installer (VC3D-7025ec6-2026-10-22-win64.zip)
+  is the exe used in after.txt (winvc3d\fixbuild\recompress-39832268089).
+- 39832272363  VC3D Windows Installer  pull_request  Compile (MSYS2 UCRT64)  SUCCESS
+- 39819740280  VC3D Windows Installer  push on fork main 5f380c3 (control build, unfixed; 5f380c3 is exactly
+  this fix's parent)  SUCCESS. Artifact VC3D-5f380c3-2026-10-22-win64.zip is the exe used for BEFORE 1.
+
+Linux / macOS
+- 39832272161  Continuous Integration (CI), pull_request: SUCCESS
+- 39832272138  VC3D Linux pull_request: SUCCESS;  39832272163  VC3D macOS pull_request: SUCCESS
+  (generic_string() is a no-op on those platforms, the key text is unchanged)
+- 39832272178  CodeQL: SUCCESS
+- 39832272359  Large PR review gate: SUCCESS
+- 39832272311  Test vesuvius Python: still running at write time (unrelated subproject)
+
+Real-data before/after (before.txt, after.txt)
+- BEFORE: main 5f380c3 and release 5416c67, same command: "Occupancy LIST: 0 / 32768", "0 chunks (skipped: 4096)" at
+  every level, exit 0, six 65,536-byte empty shards.
+- AFTER: fixed build: "Occupancy LIST: 8 / 32768" (level 0) and "2 / 32768" (level 1), "2 chunks (zero: 0, skipped: 4094)",
+  exit 0; shards 744,279 bytes (level 0), 738,566 bytes (level 1), 406,874 bytes (level 3).
+- Read-back: --stats-pct 100 --levels 1 decodes both level-1 chunks and compares them with the input: 33,554,432 voxels,
+  MAE 1.094, PSNR 36.60 dB (c3d is lossy at the default target ratio 50, so a bit-exact match is not expected; the tool's
+  --verify memcmp reports FAIL on lossy output by design).
+- Level 1 shard bytes are identical across four fixed-build runs; size equals the --one-shard control (738,566).
+- Resume: fixed exe, second run into the same output: "Resume LIST: 1 existing shards", 0 chunks, shard skipped.
+- No hang at exit in any run, so the D1 fix (fix/win-render-exit) is not needed for this tool.
+
+Regression test: none added. The Windows workflow (vc3d-windows.yml) runs only `ctest -R '^unified_browser_dialog$'`
+on Windows, so a new ctest target would not run on the one platform where this matters, and Linux/macOS do not have the bug.
+Harness: C:\Users\<user>\vesuvius\winvc3d\recproof.ps1. Every PID started was recorded and exited on its own: 28076, 32704, 16844, 18796, 25064, 12916, 20160, 6224 (plus the one-shard control run).

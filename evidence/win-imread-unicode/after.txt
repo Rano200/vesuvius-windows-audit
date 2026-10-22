@@ -1,0 +1,22 @@
+# branch fix/win-imread-unicode
+
+### branch [ascii] folder='C:\\Users\\<user>\\vesuvius\\wt-win-imread-unicode-proof-branch\\lab_ascii'
+$ --no-sync python -m vesuvius.ink_detection.preprocessing.create_label_zarrs C:\Users\<user>\vesuvius\wt-win-imread-unicode-proof-branch\lab_ascii --workers 1
+Processed 1 image(s): 1 written, 0 skipped, 0 failed.
+
+Converting:   0%|          | 0/1 [00:00<?, ?file/s]
+Converting: 100%|██████████| 1/1 [00:00<00:00,  2.02file/s]
+Converting: 100%|██████████| 1/1 [00:00<00:00,  2.02file/s]
+EXIT 0
+
+### branch [non-ascii] folder='C:\\Users\\<user>\\vesuvius\\wt-win-imread-unicode-proof-branch\\lab_Scan \xfc'
+$ --no-sync python -m vesuvius.ink_detection.preprocessing.create_label_zarrs 'C:\\Users\\<user>\\vesuvius\\wt-win-imread-unicode-proof-branch\\lab_Scan \xfc' --workers 1
+Processed 1 image(s): 1 written, 0 skipped, 0 failed.
+
+Converting:   0%|          | 0/1 [00:00<?, ?file/s]
+Converting: 100%|██████████| 1/1 [00:00<00:00,  2.19file/s]
+Converting: 100%|██████████| 1/1 [00:00<00:00,  2.19file/s]
+EXIT 0
+ascii: zarr ((65, 1024, 1024), dtype('uint8'), 521209)
+non-ascii: zarr ((65, 1024, 1024), dtype('uint8'), 521209)
+arrays identical: True

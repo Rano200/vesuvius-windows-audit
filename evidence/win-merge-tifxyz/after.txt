@@ -1,0 +1,169 @@
+Harness: C:\Users\<user>\vesuvius\winvc3d\mergeprobe.ps1 (same as before.txt: fresh copy of the p2\vp3 inputs per run, no VC3D/winvc3d/vesuvius entry on PATH, cwd = the run dir, 300 s limit, would CIM Terminate only its own recorded PIDs). Machine: Windows 11 Home 10.0.26200 laptop, 2026-10-22. Same data as before.txt.
+
+Fixed build: Rano200/villa branch fix/win-merge-tifxyz 1a8638d (= upstream main 5f380c3 + this fix), CI run 39828450220 (workflow_dispatch, VC3D Windows Installer), artifact VC3D-1a8638d-2026-10-22-win64.zip, downloaded to winvc3d\fixbuild\merge-39828450220.
+No hang at exit in any run: each process ended on its own in 15.5-16.4 s (vc_merge_tifxyz.cpp has no reference to the chunk cache that causes D1), so the D1 fix (fix/win-render-exit, d7a8b6e) is not needed here.
+
+=== AFTER 1: default sibling lookup (no --obj2tifxyz); PATH has no VC3D bin, so this can only pass by finding bin\vc_obj2tifxyz_legacy.exe
+available_MB_before: 3957
+PATH entries matching VC3D|winvc3d|vesuvius: 0
+PATH lookup of vc_obj2tifxyz_legacy: not found
+exe: C:\Users\<user>\vesuvius\winvc3d\fixbuild\merge-39828450220\x\VC3D-1a8638d-2026-10-22-win64\bin\vc_merge_tifxyz.exe
+exe_sha256: E06E55D17F854DC7171E83A50117CEB5DD97379CB2D5C3427F06E0435DFD9F9C
+cwd: C:\Users\<user>\vesuvius\winvc3d\mproof\after-default
+command: "C:\Users\<user>\vesuvius\winvc3d\fixbuild\merge-39828450220\x\VC3D-1a8638d-2026-10-22-win64\bin\vc_merge_tifxyz.exe" --merge C:\Users\<user>\vesuvius\winvc3d\mproof\after-default\merge.json
+started_pid: 18304 at 2026-10-22T14:18:20.3840817-04:00
+child processes seen: cmd.exe(22436)
+RESULT: process terminated on its own after 16.4 s, exit code 0
+--- stdout (last 6 lines)
+  segA: 9604 verts, 18818 tris
+  segB: 9604 verts, 18818 tris
+  total: 19208 verts, 37636 tris
+rasterizing OBJ -> "C:\\Users\\<user>\\vesuvius\\winvc3d\\mproof\\after-default\\paths\\segA_merged" (step=20)
+output: (99, 99), valid=9604
+wrote summary to "C:\\Users\\<user>\\vesuvius\\winvc3d\\mproof\\after-default\\paths\\segA_merged\\segA_merged_summary.json"
+--- stderr
+--- paths\ after the run
+segA\
+segA_merged\
+segB\
+--- paths\segA_merged\
+meta.json 441 bytes
+segA_merged_summary.json 6215 bytes
+segA_merged.obj 2393276 bytes
+x.tif 39338 bytes
+y.tif 39338 bytes
+z.tif 39338 bytes
+--- meta.json
+{
+    "bbox": [
+        [
+            460.1849670410156,
+            428.81396484375,
+            805.4258422851563
+        ],
+        [
+            2354.31494140625,
+            2379.40771484375,
+            1342.6790771484375
+        ]
+    ],
+    "format": "tifxyz",
+    "scale": [
+        0.05000000074505806,
+        0.05000000074505806
+    ],
+    "type": "seg",
+    "uuid": "95d11ef0-de75-41ca-b7e2-d1e8d004e158"
+}
+
+
+=== AFTER 2: --obj2tifxyz <absolute path, backslashes>
+available_MB_before: 4179
+PATH entries matching VC3D|winvc3d|vesuvius: 0
+PATH lookup of vc_obj2tifxyz_legacy: not found
+exe: C:\Users\<user>\vesuvius\winvc3d\fixbuild\merge-39828450220\x\VC3D-1a8638d-2026-10-22-win64\bin\vc_merge_tifxyz.exe
+exe_sha256: E06E55D17F854DC7171E83A50117CEB5DD97379CB2D5C3427F06E0435DFD9F9C
+cwd: C:\Users\<user>\vesuvius\winvc3d\mproof\after-explicit
+command: "C:\Users\<user>\vesuvius\winvc3d\fixbuild\merge-39828450220\x\VC3D-1a8638d-2026-10-22-win64\bin\vc_merge_tifxyz.exe" --merge C:\Users\<user>\vesuvius\winvc3d\mproof\after-explicit\merge.json --obj2tifxyz C:\Users\<user>\vesuvius\winvc3d\fixbuild\merge-39828450220\x\VC3D-1a8638d-2026-10-22-win64\bin\vc_obj2tifxyz_legacy.exe
+started_pid: 7544 at 2026-10-22T14:18:43.1787631-04:00
+child processes seen: cmd.exe(31008)
+RESULT: process terminated on its own after 16.4 s, exit code 0
+--- stdout (last 6 lines)
+  segA: 9604 verts, 18818 tris
+  segB: 9604 verts, 18818 tris
+  total: 19208 verts, 37636 tris
+rasterizing OBJ -> "C:\\Users\\<user>\\vesuvius\\winvc3d\\mproof\\after-explicit\\paths\\segA_merged" (step=20)
+output: (99, 99), valid=9604
+wrote summary to "C:\\Users\\<user>\\vesuvius\\winvc3d\\mproof\\after-explicit\\paths\\segA_merged\\segA_merged_summary.json"
+--- stderr
+--- paths\ after the run
+segA\
+segA_merged\
+segB\
+--- paths\segA_merged\
+meta.json 441 bytes
+segA_merged_summary.json 6220 bytes
+segA_merged.obj 2393276 bytes
+x.tif 39338 bytes
+y.tif 39338 bytes
+z.tif 39338 bytes
+--- meta.json
+{
+    "bbox": [
+        [
+            460.1849670410156,
+            428.81396484375,
+            805.4258422851563
+        ],
+        [
+            2354.31494140625,
+            2379.40771484375,
+            1342.6790771484375
+        ]
+    ],
+    "format": "tifxyz",
+    "scale": [
+        0.05000000074505806,
+        0.05000000074505806
+    ],
+    "type": "seg",
+    "uuid": "661257a7-f59e-426e-9185-4a5bdfb95b6e"
+}
+
+
+=== AFTER 3: --obj2tifxyz <absolute path, forward slashes>
+available_MB_before: 4120
+PATH entries matching VC3D|winvc3d|vesuvius: 0
+PATH lookup of vc_obj2tifxyz_legacy: not found
+exe: C:\Users\<user>\vesuvius\winvc3d\fixbuild\merge-39828450220\x\VC3D-1a8638d-2026-10-22-win64\bin\vc_merge_tifxyz.exe
+exe_sha256: E06E55D17F854DC7171E83A50117CEB5DD97379CB2D5C3427F06E0435DFD9F9C
+cwd: C:\Users\<user>\vesuvius\winvc3d\mproof\after-explicit-fwd
+command: "C:\Users\<user>\vesuvius\winvc3d\fixbuild\merge-39828450220\x\VC3D-1a8638d-2026-10-22-win64\bin\vc_merge_tifxyz.exe" --merge C:\Users\<user>\vesuvius\winvc3d\mproof\after-explicit-fwd\merge.json --obj2tifxyz C:/Users/<user>/vesuvius/winvc3d/fixbuild/merge-39828450220/x/VC3D-1a8638d-2026-10-22-win64/bin/vc_obj2tifxyz_legacy.exe
+started_pid: 17112 at 2026-10-22T14:19:00.7069609-04:00
+child processes seen: 
+RESULT: process terminated on its own after 15.5 s, exit code 0
+--- stdout (last 6 lines)
+  segA: 9604 verts, 18818 tris
+  segB: 9604 verts, 18818 tris
+  total: 19208 verts, 37636 tris
+rasterizing OBJ -> "C:\\Users\\<user>\\vesuvius\\winvc3d\\mproof\\after-explicit-fwd\\paths\\segA_merged" (step=20)
+output: (99, 99), valid=9604
+wrote summary to "C:\\Users\\<user>\\vesuvius\\winvc3d\\mproof\\after-explicit-fwd\\paths\\segA_merged\\segA_merged_summary.json"
+--- stderr
+--- paths\ after the run
+segA\
+segA_merged\
+segB\
+--- paths\segA_merged\
+meta.json 441 bytes
+segA_merged_summary.json 6240 bytes
+segA_merged.obj 2393276 bytes
+x.tif 39338 bytes
+y.tif 39338 bytes
+z.tif 39338 bytes
+--- meta.json
+{
+    "bbox": [
+        [
+            460.1849670410156,
+            428.81396484375,
+            805.4258422851563
+        ],
+        [
+            2354.31494140625,
+            2379.40771484375,
+            1342.6790771484375
+        ]
+    ],
+    "format": "tifxyz",
+    "scale": [
+        0.05000000074505806,
+        0.05000000074505806
+    ],
+    "type": "seg",
+    "uuid": "40f40c34-96b6-482a-aaa7-d4e5ebf9ac1b"
+}
+
+
+=== Output consistency: x/y/z.tif sha256 (first 16 hex) are identical across AFTER 1-3 and a direct rasterization of the same OBJ (cmd.exe /c with the extra outer quotes, see tests.txt)
+x.tif 4B5801755B40EBC4  y.tif 9BA038053E83D8D2  z.tif 850A7AF61A6FAB78

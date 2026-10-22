@@ -1,0 +1,89 @@
+# zarr 3.2.1, git e2254ebe0, clean-src
+# input: mask.zarr = (crop > 200); in.zarr = 256^3 crop [896:1152,1280:1536,1280:1536] of public PHercParis4 level 0 (winvc3d/p3/vol.zarr/0)
+
+$ uv run --frozen --no-sync python -m vesuvius.image_proc.run.zarr_tasks --task edt-dilate --distance 3 --chunk-size 128,128,128 -n 1 /c/Users/<user>/vesuvius/zarr3-real/mask.zarr /c/Users/<user>/vesuvius/zarr3-real/main/edt.zarr
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\Users\<user>\vesuvius\wt-zarr3-tasks\vesuvius\src\vesuvius\image_proc\run\zarr_tasks\__main__.py", line 110, in <module>
+    main()
+    ~~~~^^
+  File "C:\Users\<user>\vesuvius\wt-zarr3-tasks\vesuvius\src\vesuvius\image_proc\run\zarr_tasks\__main__.py", line 106, in main
+    task.run()
+    ~~~~~~~~^^
+  File "C:\Users\<user>\vesuvius\wt-zarr3-tasks\vesuvius\src\vesuvius\image_proc\run\zarr_tasks\base.py", line 155, in run
+    self.prepare()
+    ~~~~~~~~~~~~^^
+  File "C:\Users\<user>\vesuvius\wt-zarr3-tasks\vesuvius\src\vesuvius\image_proc\run\zarr_tasks\tasks\edt_dilate.py", line 201, in prepare
+    output_arr = output_store.create_dataset(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Group' object has no attribute 'create_dataset'
+Using 1 worker processes
+Using edt package for EDT
+Input shape: (256, 256, 256), dtype: uint8
+Resolution level: 0
+Dilation distance: 3.0 voxels
+Processing chunk size: (128, 128, 128)
+Black border: True
+exit=1
+
+$ uv run --frozen --no-sync python -m vesuvius.image_proc.run.zarr_tasks --task remap --remap 255:2 --remap 0:1 --level 0 -n 1 /c/Users/<user>/vesuvius/zarr3-real/in.zarr /c/Users/<user>/vesuvius/zarr3-real/main/remap.zarr
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\Users\<user>\vesuvius\wt-zarr3-tasks\vesuvius\src\vesuvius\image_proc\run\zarr_tasks\__main__.py", line 110, in <module>
+    main()
+    ~~~~^^
+  File "C:\Users\<user>\vesuvius\wt-zarr3-tasks\vesuvius\src\vesuvius\image_proc\run\zarr_tasks\__main__.py", line 106, in main
+    task.run()
+    ~~~~~~~~^^
+  File "C:\Users\<user>\vesuvius\wt-zarr3-tasks\vesuvius\src\vesuvius\image_proc\run\zarr_tasks\tasks\remap.py", line 209, in run
+    output_store.create_dataset(
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Group' object has no attribute 'create_dataset'
+Using 1 worker processes
+Input: C:/Users/<user>/vesuvius/zarr3-real/in.zarr
+Output: C:/Users/<user>/vesuvius/zarr3-real/main/remap.zarr
+Workers: 1
+Remap values: {255: 2, 0: 1}
+Warning: fastremap not installed, using numpy (slower)
+Creating output zarr
+
+============================================================
+Processing level 0
+============================================================
+Array shape: (256, 256, 256)
+Array chunks: (128, 128, 128)
+Array dtype: uint8
+exit=1
+
+$ uv run --frozen --no-sync python -m vesuvius.image_proc.run.zarr_tasks --task resize --reference /c/Users/<user>/vesuvius/zarr3-real/ref.zarr -n 1 /c/Users/<user>/vesuvius/zarr3-real/in.zarr /c/Users/<user>/vesuvius/zarr3-real/main/resize.zarr
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\Users\<user>\vesuvius\wt-zarr3-tasks\vesuvius\src\vesuvius\image_proc\run\zarr_tasks\__main__.py", line 110, in <module>
+    main()
+    ~~~~^^
+  File "C:\Users\<user>\vesuvius\wt-zarr3-tasks\vesuvius\src\vesuvius\image_proc\run\zarr_tasks\__main__.py", line 106, in main
+    task.run()
+    ~~~~~~~~^^
+  File "C:\Users\<user>\vesuvius\wt-zarr3-tasks\vesuvius\src\vesuvius\image_proc\run\zarr_tasks\tasks\resize.py", line 294, in run
+    output_store.create_dataset(
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Group' object has no attribute 'create_dataset'
+Using 1 worker processes
+Found 1 resolution levels: ['0']
+Copied .zattrs
+Copied .zgroup
+
+============================================================
+Processing resolution level: 0
+============================================================
+Input shape: (256, 256, 256)
+Target shape: (192, 192, 192)
+Input dtype: uint8
+Output dtype: uint8
+Compressor: Blosc(cname='zstd', clevel=3, shuffle=SHUFFLE, blocksize=0)
+Output chunks: (128, 128, 128)
+exit=1
+

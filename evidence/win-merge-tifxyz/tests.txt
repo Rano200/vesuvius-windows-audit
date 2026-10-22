@@ -1,0 +1,43 @@
+Fork CI for branch fix/win-merge-tifxyz (commit 1a8638d = upstream main 5f380c3 + 1 commit), fork-internal PR Rano200/villa#4
+https://github.com/Rano200/villa/pull/4
+Fork main was synced to upstream main 5f380c3 before the push (gh repo sync), so the PR compares against a current base.
+
+Windows
+- 39828450220  VC3D Windows Installer  workflow_dispatch on fix/win-merge-tifxyz  SUCCESS
+  Configure, Build, Test unified browser Windows paths, Test MCP Windows support, Package (NSIS + ZIP),
+  Upload installer artifact, Smoke test packaged tree: all success. Artifact VC3D-windows-installer
+  (VC3D-1a8638d-2026-10-22-win64.zip) is the exe used in after.txt.
+- 39828458635  VC3D Windows Installer  pull_request  Compile (MSYS2 UCRT64)  SUCCESS
+- 39819740280  VC3D Windows Installer  push on fork main 5f380c3 (control build, unfixed, from the
+  win-render-exit work; 5f380c3 is exactly this fix's parent)  SUCCESS
+  Artifact VC3D-5f380c3-2026-10-22-win64.zip is the exe used for BEFORE 1 and 2 in before.txt.
+
+Linux / macOS
+- 39828458606  Continuous Integration (CI), pull_request: SUCCESS. Its change filter ran
+  "Linux CLI compile coverage (Clang QuickBuild)" and "macOS compile (macos-15, Homebrew LLVM)",
+  both pass; it skipped the test, GUI, Valgrind and PaStiX jobs because only an app source changed.
+  The non-Windows build compiles the file with the new code compiled out (#ifdef _WIN32).
+- 39828458598  CodeQL: pass
+- 39828458602  VC3D Linux AppImage: pass;  39828458564  VC3D macOS App: pass
+- 39828458770  Large PR review gate: pass (1 file)
+- 39828458674  Test vesuvius Python: still running at write time (unrelated subproject)
+
+Direct cmd.exe check (C:\Users\<user>\vesuvius\winvc3d\mproof\cmdquote.bat, run from PowerShell via
+Start-Process cmd.exe with a 120 s limit; exe = main 5f380c3 vc_obj2tifxyz_legacy.exe, OBJ = the stray
+segA_merged.obj left by BEFORE 2):
+[1] cmd.exe /c "exe" "obj" "out" 20   (the string vc_merge_tifxyz passes today)
+    rc=1, stderr "The system cannot find the path specified.", no output
+[2] cmd.exe /c ""exe" "obj" "out" 20"  (with the extra outer pair, what this fix sends)
+    rc=0, x.tif written; x/y/z.tif byte-identical to the fixed tool's output in after.txt
+
+Real-data before/after (before.txt, after.txt)
+- BEFORE: main 5f380c3 default lookup, main with --obj2tifxyz <abs .exe>, release 5416c67 default
+  lookup: all exit 1 after ~17-18 s, no tifxyz, stray paths\segA_merged.obj.
+- AFTER: fixed build, default lookup with no VC3D folder on PATH, --obj2tifxyz with backslashes, and
+  with forward slashes: all exit 0 in 15.5-16.4 s, "output: (99, 99), valid=9604",
+  paths\segA_merged\ = meta.json, segA_merged.obj, segA_merged_summary.json, x/y/z.tif.
+- No hang at exit in any run, so the D1 fix (fix/win-render-exit) is not needed for this tool.
+
+Regression test: none added. The Windows workflow (vc3d-windows.yml) runs only
+`ctest -R '^unified_browser_dialog$'` on Windows, so a new ctest target would not run on the one
+platform where this matters, and Linux/macOS do not have the bug.

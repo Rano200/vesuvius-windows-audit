@@ -1,0 +1,54 @@
+AFTER: fixed build starts the bundled vc_* tools and they write their output
+Date: 2026-10-22. Machine: Windows 11 Home 10.0.26200. No window was shown and nothing was clicked.
+
+Build: branch fix/win-gui-tools, commit 0fb5a65 (= upstream main 5f380c3 + 1 commit), packaged by the
+fork's "VC3D Windows Installer" workflow_dispatch run 39832809875 (MSYS2 UCRT64), artifact
+VC3D-0fb5a65-2026-10-22-win64.zip, extracted to
+C:\Users\<user>\vesuvius\winvc3d\fixbuild\gui-39832809875\x\VC3D-0fb5a65-2026-10-22-win64\bin\VC3D.exe.
+Its Qt6Core.dll and Qt6Gui.dll are byte-identical to the release and to the MSYS2 qt6-base 6.11.1-1 package.
+
+Driven exactly as in before.txt: Agent Bridge over \\.\pipe\<name>, QT_QPA_PLATFORM=offscreen,
+qoffscreen.dll from a separate folder, same client script, same vol.zarr and segA, same calls.
+
+AFTER 1 (C:\Users\<user>\vesuvius\winvc3d\guiproof\after-fix)
+  ping -> {"pid": 28820, "pong": true, "protocolVersion": 2, "version": "0fb5a65-2026-10-22"}
+  volume.open / segments.attach / segments.list -> same as before (segA loaded)
+  render.tifxyz {"segmentId": "segA", "outputFormat": "tif_stack", "scale": 0.5, "numSlices": 1, ...}
+    -> {"result": {"jobId": "job-1", "kind": "render.tifxyz", "outputDir": "...\after-fix\render_out\layers",
+        "outputFormat": "tif_stack", "source": "tool", "volumeId": "vol.zarr-b01d4be6e56f7028"}}
+    job.progress: "Starting vc_render_tifxyz for: segA"
+    job.progress: "rendering 1020x1020 at scale 0.5 crop [1020x1020 from (0,0)]"
+    job.progress (finished, success true): ".../bin/vc_render_tifxyz.exe completed successfully"
+    output: render_out\layers\00.tif, 33790 bytes, 1020x1020 uint8, min 0 max 254, 1.6% non-zero pixels
+            (the zarr is sparse: only the chunks that were downloaded hold data)
+  tracer.run_trace {"segmentId": "segA", "ompThreads": 2, "outputDir": "...\after-fix\traces"}
+    -> {"result": {"jobId": "job-2", "kind": "tracer.run_trace", "source": "tool", ...}}
+    child process seen under VC3D: [27796, vc_grow_seg_from_segments.exe]
+    The tool itself then stopped with "filesystem error: directory iterator cannot open directory:
+    No such file or directory [...\after-fix\paths]" (job.progress finished, success false, "crashed").
+    That is the tool's own input check: Run Trace passes <project folder>\paths, and this .volpkg.json
+    project had no paths folder. Not related to this fix (see AFTER 2).
+
+AFTER 2 (C:\Users\<user>\vesuvius\winvc3d\guiproof\after-fix-paths; same, with an empty paths\ folder created first)
+  render.tifxyz -> job-1, ".../vc_render_tifxyz.exe completed successfully", render_out\layers\00.tif 33790 bytes
+  tracer.run_trace -> job-2, child [4364, vc_grow_seg_from_segments.exe],
+    job.progress: "gen 6 processing 12 fringe cands ...", "Ceres Solver Report: Iterations: 87, ... Termination: CONVERGENCE",
+    job.progress (finished, success true): ".../bin/vc_grow_seg_from_segments.exe completed successfully"
+    output: traces\auto_grown_20261022145320654\ and traces\auto_trace_20261022145320849\
+            (x.tif, y.tif, z.tif, generations.tif, meta.json each), traces\inliers_sum.tif
+
+Before vs after, same data, same calls
+  render.tifxyz     before: -32006 "vc_render_tifxyz not found or not executable: .../bin/vc_render_tifxyz"
+                    after:  job started, vc_render_tifxyz.exe ran, 1020x1020 TIFF written, success
+  tracer.run_trace  before: -32005 "Failed to start Run Trace.", no child process
+                    after:  job started, vc_grow_seg_from_segments.exe ran (and with a paths folder,
+                            wrote two tifxyz surfaces, success)
+
+No hang at exit: vc_render_tifxyz.exe exited by itself in under 0.5 s in both AFTER runs.
+All processes were started by the probe and ended by PID (VC3D) or on their own (tools); the five
+discovery records the terminated VC3D runs left in ~/.vc3d/agent_bridge were removed.
+
+Side observation, not part of this fix: in AFTER 2 the finished job.progress for job-2 (Run Trace)
+reports "outputPath": ".../after-fix-paths/render_out", the previous render's folder, not traces\.
+
+Full transcripts: transcript.txt and vc3d-stdout.txt in each run folder above.

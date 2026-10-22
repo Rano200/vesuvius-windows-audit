@@ -1,0 +1,33 @@
+Fork CI for branch fix/win-render-exit (commit d7a8b6e = upstream main 72600fef + 1 commit), fork-internal PR Rano200/villa#3
+https://github.com/Rano200/villa/pull/3
+
+Windows
+- 39819763450  VC3D Windows Installer  workflow_dispatch on fix/win-render-exit  SUCCESS
+  Configure, Build, Test unified browser Windows paths, Test MCP Windows support, Package (NSIS + ZIP),
+  Upload installer artifact, Smoke test packaged tree: all success. Artifact VC3D-windows-installer
+  (VC3D-d7a8b6e-2026-10-22-win64.zip) is the exe used in after.txt.
+- 39819739788  VC3D Windows Installer  pull_request  Compile (MSYS2 UCRT64)  SUCCESS (27m30s)
+- 39819740280  VC3D Windows Installer  push on fork main 5f380c3 (control build, unfixed)  SUCCESS
+  Artifact VC3D-5f380c3-2026-10-22-win64.zip is the exe used for BEFORE 2 in before.txt.
+
+Linux / macOS (run 39819739751, Continuous Integration, pull_request): SUCCESS
+- Linux base tests, Linux Lasagna/fiber/GUI tests, Linux CLI compile coverage, Linux Flatboi/PaStiX
+  compile coverage, Linux VC3D compile and smoke, Synthetic rendering regression (GCC Release /
+  Valgrind replay), macOS compile (macos-15, Homebrew LLVM): all pass.
+- 39819739778 CodeQL (core, components, controllers, tools and libraries scans): pass
+- 39819739719 VC3D Linux AppImage, 39819739561 VC3D macOS App (pull_request): pass
+- 39819739714 Test vesuvius Python: 2.18.7 pass, 3.2.1 still pending at write time (unrelated subproject)
+
+Not a real failure
+- 39819739582 Large PR review gate: FAIL "This PR changes 488 files (> 20)". I opened fork PR #3
+  before syncing the fork's main, so the fork PR was compared against an old fork main (efddd77)
+  and counted ~490 upstream commits' files. The actual change is 1 file, +7 lines (diff.patch).
+
+Regression test: none added. The Windows workflow (vc3d-windows.yml) runs only
+`ctest -R '^unified_browser_dialog$'` on Windows; a new ctest target would never run on the one
+platform where this matters, and Linux/macOS do not have the hang. The before/after real-data runs
+in before.txt / after.txt are the proof.
+
+Earlier (cancelled, mine): 39819766430 (dispatch with a mistyped short SHA, cancelled at once),
+39819791861 (duplicate control dispatch, cancelled because the main push run 39819740280 built the
+same volume-cartographer tree).
