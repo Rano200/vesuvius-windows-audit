@@ -1,0 +1,11 @@
+Fork CI, Rano200/villa, workflow "VC3D Windows Installer", workflow_dispatch, windows-latest (MSYS2 UCRT64). No PRs opened anywhere.
+Branches: fix/win-longpath 730b45db0 (= upstream main e2254ebe0 + 1 commit, +1 line); ci/longpath-control 2d37e741a (= main + probe step); ci/longpath-fix b2c82138e (= fix + the same probe commit).
+
+Probe step (fork-only, continue-on-error, after Build): prints reg LongPathsEnabled, writes a 12x12 tifxyz (stdlib python), runs vc_tifxyz2obj with a 324-character OUTPUT path (dirs created via \?\ so setup cannot fail), prints exit code and whether the file exists.
+
+- 39849889767 control: LongPathsEnabled 0x1; manifest text longPathAware False; "Failed to open for write", exit code 0 (the tool does not propagate it), output file exists False -> probe FAIL
+- 39849894070 fix: LongPathsEnabled 0x1; longPathAware True; exit 0; output file exists True (20670 bytes) -> probe PASS
+- 39849897808 fix/win-longpath (real branch, no probe): Configure, Build, Test unified browser, Test MCP Windows, Package (NSIS + ZIP), Upload, Smoke test packaged tree all success. Artifact VC3D-730b45d-2026-10-22-win64.zip.
+
+Local (this laptop, LongPathsEnabled=0, registry untouched): vc_tifxyz2obj from the fixed ZIP and from release 5416c67 on the same short-path tifxyz write byte-identical OBJs (cmp identical); fixed exe contains longPathAware.
+Not run: Linux/macOS (manifest is only used by the Windows build); no PR was opened so no PR checks exist. The tifxyz2obj exit-0-on-failed-write is a separate platform-neutral issue and is not touched.

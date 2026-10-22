@@ -1,0 +1,18 @@
+CONTROL (ci/longpath-control 2d37e741a = main e2254ebe0 + CI probe), run 39849889767, windows-latest
+== LongPathsEnabled on this runner ==
+
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\FileSystem
+    LongPathsEnabled    REG_DWORD    0x1
+
+exe: D:\a\villa\villa\volume-cartographer\build\ci-windows-mingw\bin\vc_tifxyz2obj.exe
+longPathAware text present in exe manifest: False
+output path length: 324
+Failed to open for write: "D:\\a\\_temp\\dddddddddddddddddddddddddddddddddddddddddddddddddd\\dddddddddddddddddddddddddddddddddddddddddddddddddd\\ddddddddddddddd
+vc_tifxyz2obj exit code: 0
+output file exists: False (bytes: 0)
+Exception: D:\a\_temp\3420fdd1-c9f9-40d5-9402-ffb7f9b05945.ps1:23
+Line |
+  23 |  … -or $size -eq 0) { throw "LONGPATH PROBE: FAIL (no output written)" }
+     |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     | LONGPATH PROBE: FAIL (no output written)
+##[error]Process completed with exit code 1.

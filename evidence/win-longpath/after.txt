@@ -1,0 +1,15 @@
+FIX (ci/longpath-fix b2c82138e = fix 730b45db0 + same CI probe), run 39849894070, windows-latest
+== LongPathsEnabled on this runner ==
+
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\FileSystem
+    LongPathsEnabled    REG_DWORD    0x1
+
+exe: D:\a\villa\villa\volume-cartographer\build\ci-windows-mingw\bin\vc_tifxyz2obj.exe
+longPathAware text present in exe manifest: True
+output path length: 324
+Point dims: [12 x 12] cols: 12 rows: 12
+UVs: scaled by 1/scale from meta.json  (u*= 1, v*= 1 )
+      (meta scale = [1, 1])
+vc_tifxyz2obj exit code: 0
+output file exists: True (bytes: 20670)
+LONGPATH PROBE: PASS
