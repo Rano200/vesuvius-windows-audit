@@ -81,11 +81,12 @@ Earlier Windows fixes queued on 10-21, not part of this audit's runs: `win-cross
 Found in the same runs. Not counted in D1-D6.
 
 - **zarr 3 crashes in `zarr_tasks`** (branch `fix/zarr3-tasks`, commits 34c1c651f and e8f483f32 on e2254ebe0). `edt-dilate`, `remap` and `resize` call `Group.create_dataset`, which zarr 3.2.1 removed. All three exit 1 on a 256^3 crop of PHercParis4, exit 0 on the branch. `remap` also dropped the input attributes; the second commit copies them (the real-data output now carries `multiscales`). Tests on zarr 3.2.1: main 3 failed, branch 23 passed. Not run on zarr 2.18.7. This follows the pattern of #2244 for merge. Evidence in `evidence/zarr3-tasks/`.
+- **`python -m vesuvius.image_proc.run.ced` cannot run at all** (branch `fix/ced-import`): `ced.py:24` imports the diffusion submodule instead of the function inside it, so every path raises `TypeError: 'module' object is not callable`. It has been that way since #507 (merged 2025-10-11), the only commit on the file. One-line fix plus a test (2 fail on main, 2 pass); on a real PHercParis4 slice main exits 1, the branch writes the output and the 8 sample-results TIFFs.
+- **Run Trace with no `paths` folder** (branch `fix/trace-no-paths`): `vc_grow_seg_from_segments` (`load_source_surfaces`) iterates a directory that does not exist and dies with an uncaught `filesystem_error`. The fix treats a missing folder as no existing segments (+7 lines); fork CI green on Windows, Linux and macOS; before: crash 0xC0000409, after: trace grown, exit 0.
 - **`zarr_tasks threshold` on a group input** hits a worker TypeError. The bot-closed #1431 already fixed this; not re-reported.
 - **`vc_tifxyz2rgb --help`** aborts on an uncaught exception. Open #2152 covers it.
 - **Case-only `segments.rename`** (for example `Zed` to `ZED`) is refused with -32010 "A segment named ZED already exists". Cause: `SegmentationCommandHandler.cpp` `renameSurfaceHeadless` (~5775) checks `exists(newPath)`, which is true on a case-insensitive filesystem; the same-id check is a case-sensitive string compare. It would also hit macOS. Workaround: rename through a temp name. Not fixed.
 - **Paths over 260 characters:** now D10 in section 3, fixed and proven on the GitHub Windows runner.
-- **Run Trace with no `paths\` folder** in the project dies with an uncaught `filesystem_error`.
 - Smaller items: `render.tifxyz` returns mixed separators in `outputDir`; `project.create "x.volpkg"` gives `x.volpkg.volpkg.json`; `flatten.slim` needs `flatboi`, which is not shipped; `vc_render_video` and `vc_ngrids` points above.
 
 ## 6. Relation to existing Windows issues
