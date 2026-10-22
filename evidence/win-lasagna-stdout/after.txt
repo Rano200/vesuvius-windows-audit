@@ -1,0 +1,75 @@
+### branch: analyze_zarr_channels.py (env: PYTHONIOENCODING/PYTHONUTF8 unset, stdout redirected)
+$ python analyze_zarr_channels.py pyprobe-out4/chan.zarr > branch-analyze.txt
+exit=0
+--- stderr (tail)
+--- file (700 bytes)
+Path:     C:/Users/<user>/vesuvius/pyprobe-out4/chan.zarr
+Shape:    (3, 64, 128, 128)  dtype=uint8  chunks=(3, 32, 64, 64)
+
+Scanning 2 Z-slabs (chunk_z=32, workers=22) ...
+  slab 1/2  50%  elapsed 0s  ETA 0s  slab 2/2  100%  elapsed 0s  ETA 0s  done in 0.7s  (4 Mvox/s)                    
+
+ Ch  Name          Min  Max    Mean Median     NZ%  Histogram
+-----------------------------------------------------------------------------
+  0  cos             0  200   43.92      0   22.0%  █           ▂   
+  1  grad            0   40    5.02      0   22.0%  █▁              
+  2  dir             7    7    7.00      7  100.0%  █               
+
+Total voxels per channel: 1,048,576
+
+### branch: labels_to_winding_volume.py
+$ python labels_to_winding_volume.py --input pyprobe-out3/labels.tif --output w.zarr --step 4 --connectivity 6 --min-voxels 1000 > branch-winding.txt
+exit=0
+--- stderr (tail)
+C:\Users\<user>\vesuvius\wt-win-lasagna-stdout\lasagna\labels_to_winding_volume.py:403: RuntimeWarning: invalid value encountered in divide
+  interp_1 = (w_prev * dist_1 + w_near * dist_prev) / total_1
+C:\Users\<user>\vesuvius\wt-win-lasagna-stdout\lasagna\labels_to_winding_volume.py:407: RuntimeWarning: invalid value encountered in divide
+  interp_2 = (w_near * dist_next + w_next * dist_1) / total_2
+--- file (3217 bytes)
+[labels_to_winding_volume] reading C:\Users\<user>\vesuvius\pyprobe-out4\..\pyprobe-out3\labels.tif
+[labels_to_winding_volume] volume shape=(64, 128, 128)  dtype=uint8
+[labels_to_winding_volume] border bg → ignore: 32768 voxels
+[labels_to_winding_volume] foreground voxels: 197513 (18.8%)
+[labels_to_winding_volume] ignore voxels: 32768 (3.1%)
+[labels_to_winding_volume] non-ignore connected components: 1
+[labels_to_winding_volume]   segment 1: cc=1  size=1015808  fg=197513
+[labels_to_winding_volume] running connected components (connectivity=6)
+[labels_to_winding_volume] raw components: 16551
+[labels_to_winding_volume] after min_voxels=1000: 11 components (removed 16540)
+[labels_to_winding_volume] processing 11 components
+[labels_to_winding_volume] medial surface 1/11: 1020 → 994 voxels
+[labels_to_winding_volume] medial surface 2/11: 2296 → 2292 voxels
+[labels_to_winding_volume] medial surface 3/11: 1473 → 1467 voxels
+[labels_to_winding_volume] medial surface 4/11: 1775 → 1765 voxels
+[labels_to_winding_volume] medial surface 5/11: 1809 → 1796 voxels
+[labels_to_winding_volume] medial surface 6/11: 90891 → 89410 voxels
+[labels_to_winding_volume] medial surface 7/11: 7066 → 6751 voxels
+[labels_to_winding_volume] medial surface 8/11: 1524 → 1497 voxels
+[labels_to_winding_volume] medial surface 9/11: 1031 → 1026 voxels
+[labels_to_winding_volume] medial surface 10/11: 2415 → 2310 voxels
+[labels_to_winding_volume] medial surface 11/11: 1707 → 1658 voxels
+[labels_to_winding_volume] skeleton debug slice: C:\Users\<user>\vesuvius\pyprobe-out4\stdout-proof\branch-w_skel_dbg.tif (z=32)
+[labels_to_winding_volume] computing 11 distance transforms
+[labels_to_winding_volume] DT 1/11 (cc_id=1)
+[labels_to_winding_volume] DT 2/11 (cc_id=2)
+[labels_to_winding_volume] DT 3/11 (cc_id=3)
+[labels_to_winding_volume] DT 4/11 (cc_id=4)
+[labels_to_winding_volume] DT 5/11 (cc_id=5)
+[labels_to_winding_volume] DT 6/11 (cc_id=6)
+[labels_to_winding_volume] DT 7/11 (cc_id=7)
+[labels_to_winding_volume] DT 8/11 (cc_id=8)
+[labels_to_winding_volume] DT 9/11 (cc_id=9)
+[labels_to_winding_volume] DT 10/11 (cc_id=10)
+[labels_to_winding_volume] DT 11/11 (cc_id=11)
+[labels_to_winding_volume] nearest CC + pairwise distances complete
+[labels_to_winding_volume] winding chain: [10, 5, 6, 8, 9, 7, 4, 3, 2, 1, 0]
+[labels_to_winding_volume] winding_map: {10: 1, 5: 2, 6: 3, 8: 4, 9: 5, 7: 6, 4: 7, 3: 8, 2: 9, 1: 10, 0: 11}
+[labels_to_winding_volume] chain-adjacent distances complete
+[labels_to_winding_volume] computing envelope mask (first_cc=11, last_cc=1)
+[labels_to_winding_volume] outside envelope: 60571 voxels (5.8%)
+[labels_to_winding_volume] winding volume: min=0.185 max=11.541
+[labels_to_winding_volume] debug TIFF: C:\Users\<user>\vesuvius\pyprobe-out4\stdout-proof\branch-w_dbg.tif  layers=['d_hi', 'd_lo', 'w_hi', 'w_lo', 'winding']
+[labels_to_winding_volume] downsampled: (64, 128, 128) → (16, 32, 32) (step=4)  min=0.309 max=11.291
+[labels_to_winding_volume] zarr written: C:\Users\<user>\vesuvius\pyprobe-out4\stdout-proof\branch-w.zarr  shape=(16, 32, 32)  chunks=(64, 64, 64)
+[labels_to_winding_volume] done — 11 components, 11 windings
+0.0.0

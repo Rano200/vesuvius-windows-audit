@@ -1,0 +1,30 @@
+### main: analyze_zarr_channels.py (env: PYTHONIOENCODING/PYTHONUTF8 unset, stdout redirected)
+$ python analyze_zarr_channels.py pyprobe-out4/chan.zarr > main-analyze.txt
+exit=1
+--- stderr (tail)
+  File "C:\Users\<user>\AppData\Local\Programs\Python\Python313\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u2588' in position 52: character maps to <undefined>
+--- file (441 bytes)
+Path:     C:/Users/<user>/vesuvius/pyprobe-out4/chan.zarr
+Shape:    (3, 64, 128, 128)  dtype=uint8  chunks=(3, 32, 64, 64)
+
+Scanning 2 Z-slabs (chunk_z=32, workers=22) ...
+  slab 1/2  50%  elapsed 0s  ETA 0s  slab 2/2  100%  elapsed 0s  ETA 0s  done in 0.7s  (5 Mvox/s)                    
+
+ Ch  Name          Min  Max    Mean Median     NZ%  Histogram
+-----------------------------------------------------------------------------
+
+### main: labels_to_winding_volume.py
+$ python labels_to_winding_volume.py --input pyprobe-out3/labels.tif --output w.zarr --step 4 --connectivity 6 --min-voxels 1000 > main-winding.txt
+exit=1
+--- stderr (tail)
+  File "C:\Users\<user>\AppData\Local\Programs\Python\Python313\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u2192' in position 37: character maps to <undefined>
+--- file (169 bytes)
+[labels_to_winding_volume] reading C:\Users\<user>\vesuvius\pyprobe-out4\..\pyprobe-out3\labels.tif
+[labels_to_winding_volume] volume shape=(64, 128, 128)  dtype=uint8
+ls: cannot access '/c/Users/<user>/vesuvius/pyprobe-out4/stdout-proof/main-w.zarr': No such file or directory

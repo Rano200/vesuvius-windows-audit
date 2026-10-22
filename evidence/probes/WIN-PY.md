@@ -64,3 +64,29 @@ COVERAGE (every command run)
 | 18 | scripts/convert_nnunet_to_vesuvius.py | none | not run (no nnU-Net dataset, no README entry) |
 | 19 | ink-detection/ subproject CLIs | none | not run: time budget |
 Cleanup: killed only my own hung PIDs (ffmpeg 29280, python 10272/24072; ffmpeg 33408, 8964 from ffhang.py). No outward actions.
+
+## Probe 4 (pre-registered before any run, 2026-10-22)
+Success = >= 1 NEW Windows-specific defect in a documented entrypoint (lasagna torch-on-CPU tools: labels_to_winding_volume, analyze_zarr_channels, fit2tifxyz and others with usage blocks; ink-detection/koine_machines and ink-detection/optimized_inference on CPU/4060 with tiny real crops; spiral-fitting Python CLIs not needing vc_spiral C++), reproducible on real public data, no issue/PR in any state (gh issue/pr list -R ScrollPrize/villa --state all --search, incl. closed, plus open PRs on the file). 0 after ~90 min = KILL. D5-D8, zarr3, #1431, #2240 not re-reported. Ends with COVERAGE table. Separate venv per subproject inside wt-pyprobe; torch CPU; memory floor 1200 MB checked before each run.
+
+### Probe 4 results (~45 min; lasagna venv wt-pyprobe\lasagna\.venv-p4 = torch 2.14.1+cpu, zarr 3.4.1; repro dir C:\Users\<user>\vesuvius\pyprobe-out4)
+VERDICT: SUCCESS, 1 new defect (D9, with a family of same-class sites). ink-detection/koine_machines does not exist in this checkout (only optimized_inference).
+
+**D9: lasagna CLIs print non-cp1252 characters; crash when stdout is redirected or piped on Windows (no PYTHONIOENCODING/PYTHONUTF8).**
+- `python analyze_zarr_channels.py <zarr>` (documented usage) > out.txt: scan finishes, then the results table dies with UnicodeEncodeError ('\u2588', hist_sparkline bars " ▁▂▃▄▅▆▇█") at line 179, exit 1; nothing of the table is saved. With PYTHONIOENCODING=utf-8 it prints fine. Data: 3xZxYxX uint8 zarr built from real labels.tif (pyprobe-out3, PHercParis4 crop).
+- `python labels_to_winding_volume.py --input labels.tif --output w.zarr --step 4 --connectivity 6 --min-voxels 1000` (documented usage) with output redirected or piped: dies with UnicodeEncodeError '\u2192' at line 144 (`print(f"{TAG} border bg → ignore ...")`), exit 1, at the start of the run (also lines 219, 437 use →). Console/utf-8-forced runs finish in 17 s. Clean env (bash, no PYTHONIOENCODING) needed; the harness PowerShell sets PYTHONIOENCODING=utf-8, which masked it in my first run.
+- Same class, not run: lasagna/estimate_stream_memory.py:360 ('─'), lasagna/scripts/create_offset_volpkg.py:220,222 ('→'), vesuvius create_st.py:813-814, create_vf.py:164,166 ('✔'), build_betti.py, blending.py:312, ced.py:730. Fix: ASCII text or sys.stdout.reconfigure(encoding="utf-8", errors="replace").
+- Prior art: none (gh issue/pr --state all: analyze_zarr_channels, labels_to_winding_volume, estimate_stream_memory, create_offset_volpkg, UnicodeEncodeError, cp1252, charmap codec, sparkline, stdout encoding, Windows console unicode; code search analyze_zarr_channels only hits the file; open PRs on these files: none). Nearest: #1524/#1926 (YAML read with locale codec, different file/direction, merged).
+- Weak/observations (not counted): ink-detection/optimized_inference/entrypoint.py hardcodes /tmp/result_s3_url.txt, /tmp/surface_volume_*, /workspace (container design; the README "Quick start (local)" is `python entrypoint.py`); not run because every step needs S3/GPU weights.
+
+COVERAGE (probe 4)
+| # | command | data | result |
+|---|---|---|---|
+| 1 | lasagna/labels_to_winding_volume.py (usage block) | pyprobe-out3 labels.tif (real vol.zarr crop) | works with utf-8 stdout (11 CCs, zarr (16,32,32)); DEFECT D9 under redirect |
+| 2 | lasagna/analyze_zarr_channels.py | 3-channel zarr from same labels | DEFECT D9 under redirect; ProcessPool spawn OK |
+| 3 | lasagna/fit2tifxyz.py | none | not run: needs a lasagna fit checkpoint (not public/available); imports torch+model fine statically |
+| 4 | lasagna/labels_to_lasagna_normals.py | none | not run: needs vc_gen_normalgrids/vc_ngrids C++ binaries |
+| 5 | lasagna/scripts/rechunk_omezarr, download_omezarr, create_offset_volpkg | none | not run (tensorstore/network); create_offset_volpkg static D9-class hit |
+| 6 | ink-detection/optimized_inference entrypoint (prepare/inference/reduce) | none | not run: S3 + HF weights required; static only (/tmp, /workspace hardcodes) |
+| 7 | spiral-fitting/*.py | none | not run: requires-python>=3.14, wandb/tensorstore/kimimaro/libigl stack, track-store inputs unavailable; static unicode-print scan clean (only a test file) |
+| 8 | ink-detection/koine_machines | none | absent from checkout |
+Cleanup: no background processes left; no PIDs killed; no outward actions; original data untouched.

@@ -1,0 +1,23 @@
+## branch
+============================= test session starts =============================
+platform win32 -- Python 3.13.13, pytest-9.1.1, pluggy-1.6.0 -- C:\Users\<user>\AppData\Local\Programs\Python\Python313\python.exe
+rootdir: C:\Users\<user>\vesuvius\wt-win-lasagna-stdout\lasagna
+configfile: pyproject.toml
+plugins: zarr-3.4.1, anyio-4.14.2
+collecting ... collected 3 items
+
+tests/test_cli_stdout_encoding.py::test_analyze_zarr_channels_piped_cp1252 PASSED [ 33%]
+tests/test_cli_stdout_encoding.py::test_labels_to_winding_volume_piped_cp1252 PASSED [ 66%]
+tests/test_cli_stdout_encoding.py::test_estimate_stream_memory_piped_cp1252 PASSED [100%]
+
+============================== 3 passed in 5.06s ==============================
+## main (source files stashed, new test kept)
+tests/test_cli_stdout_encoding.py::test_analyze_zarr_channels_piped_cp1252 FAILED [ 33%]
+tests/test_cli_stdout_encoding.py::test_labels_to_winding_volume_piped_cp1252 FAILED [ 66%]
+tests/test_cli_stdout_encoding.py::test_estimate_stream_memory_piped_cp1252 FAILED [100%]
+================================== FAILURES ===================================
+FAILED tests/test_cli_stdout_encoding.py::test_analyze_zarr_channels_piped_cp1252
+FAILED tests/test_cli_stdout_encoding.py::test_labels_to_winding_volume_piped_cp1252
+FAILED tests/test_cli_stdout_encoding.py::test_estimate_stream_memory_piped_cp1252
+============================== 3 failed in 4.44s ==============================
+## existing lasagna tests: not run (lasagna package is not installed in this probe venv; ModuleNotFoundError at collection, unrelated to this change)
