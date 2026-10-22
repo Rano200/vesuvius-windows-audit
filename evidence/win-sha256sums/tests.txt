@@ -1,0 +1,19 @@
+### BRANCH
+..........                                                               [100%]
+10 passed in 0.50s
+### MAIN script + new test
+
+tests\scripts\test_collect_reviewed_fibers.py:257: AssertionError
+---------------------------- Captured stdout call -----------------------------
+Downloading 1 JSONs from 1 collections
+{
+  "output": "C:\\Users\\<user>\\AppData\\Local\\Temp\\pytest-of-user\\pytest-64\\test_sha256sums_has_no_carriag0\\audit",
+  "counts": {
+    "PHerc1299": 1
+  },
+  "reviewed": 1,
+  "reviewed_with_rework": 1
+}
+=========================== short test summary info ===========================
+FAILED tests/scripts/test_collect_reviewed_fibers.py::test_sha256sums_has_no_carriage_returns
+1 failed, 9 passed in 0.58s

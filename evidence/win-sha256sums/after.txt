@@ -1,0 +1,24 @@
+$ python /c/Users/<user>/vesuvius/wt-win-sha256sums/vesuvius/scripts/collect_reviewed_fibers.py --audit-only --originals /c/Users/<user>/vesuvius/scratch-d8/empty-orig --split /c/Users/<user>/vesuvius/scratch-d8/empty-split --output /c/Users/<user>/vesuvius/scratch-d8/branch-out
+Checked 1700/1834; selected 86 reviewed
+Checked 1800/1834; selected 88 reviewed
+Checked 1834/1834; selected 88 reviewed
+{
+  "output": "C:\\Users\\<user>\\vesuvius\\scratch-d8\\branch-out",
+  "counts": {
+    "PHerc0139": 20,
+    "unknown": 7,
+    "PHerc1299": 52,
+    "PHerc1451": 2,
+    "PHercParis4": 7
+  },
+  "reviewed": 88,
+  "reviewed_with_rework": 0
+}
+exit=0
+$ cd branch-out && sha256sum -c SHA256SUMS
+sha256sum exit=0
+rows: 88, OK: 88, FAILED/other: 0
+raw_reviewed/0139_refine/0001_dj_20260904T151437210_000003_run1.json: OK$
+raw_reviewed/0139_refine/0003_dj_20260904T151437210_000003_run2.json: OK$
+raw_reviewed/0139_refine/0004_dj_20260904T151437210_000003_run2.json: OK$
+CR bytes in SHA256SUMS: 0

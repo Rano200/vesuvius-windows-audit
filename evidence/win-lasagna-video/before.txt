@@ -1,0 +1,19 @@
+RUN main C:\Users\<user>\vesuvius\wt-pyprobe\vesuvius\.venv\Scripts\python.exe C:/Users/<user>/vesuvius/scratch-d7main/labels_to_cc_zarr.py --input C:\Users\<user>\vesuvius\pyprobe-out3\labels.tif --output C:\Users\<user>\vesuvius\scratch-d7main\out\cc.zarr --binary-zarr C:\Users\<user>\vesuvius\scratch-d7main\out\bin.zarr --video C:\Users\<user>\vesuvius\scratch-d7main\out\cc.mp4
+[labels_to_cc] reading C:\Users\<user>\vesuvius\pyprobe-out3\labels.tif
+[labels_to_cc] volume shape=(64, 128, 128)  dtype=uint8
+[labels_to_cc] labels: bg(0)=818295  pred(1)=197513  ignore(2)=32768  other=0
+[labels_to_cc] foreground voxels: 197513 (18.8%)
+[labels_to_cc] running connected components (connectivity=6)
+[labels_to_cc] raw components: 16551
+[labels_to_cc] WARNING: 16551 components > 254, clamping to uint8 range
+[labels_to_cc] writing zarr to C:\Users\<user>\vesuvius\scratch-d7main\out\cc.zarr
+[labels_to_cc] zarr written  shape=(64, 128, 128)  chunks=(64, 64, 64)
+[labels_to_cc] writing binary zarr to C:\Users\<user>\vesuvius\scratch-d7main\out\bin.zarr
+[labels_to_cc] binary zarr written  shape=(64, 128, 128)  chunks=(64, 64, 64)
+[labels_to_cc] rendering 64 slices along z
+[labels_to_cc] encoding video to C:\Users\<user>\vesuvius\scratch-d7main\out\cc.mp4  (64 frames, 15 fps)
+main: HUNG, no exit after 60s; killing own process tree root pid 35000 (taskkill /T /PID)
+SUCCESS: The process with PID 33632 (child process of PID 30772) has been terminated.
+SUCCESS: The process with PID 30772 (child process of PID 35000) has been terminated.
+SUCCESS: The process with PID 35000 (child process of PID 11044) has been terminated.
+cc.mp4 bytes 494405

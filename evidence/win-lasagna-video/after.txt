@@ -1,0 +1,22 @@
+RUN branch C:\Users\<user>\vesuvius\wt-pyprobe\vesuvius\.venv\Scripts\python.exe C:\Users\<user>\vesuvius\wt-win-lasagna-video\lasagna\labels_to_cc_zarr.py --input C:\Users\<user>\vesuvius\pyprobe-out3\labels.tif --output C:\Users\<user>\vesuvius\scratch-d7main\outb\cc.zarr --binary-zarr C:\Users\<user>\vesuvius\scratch-d7main\outb\bin.zarr --video C:\Users\<user>\vesuvius\scratch-d7main\outb\cc.mp4
+[labels_to_cc] reading C:\Users\<user>\vesuvius\pyprobe-out3\labels.tif
+[labels_to_cc] volume shape=(64, 128, 128)  dtype=uint8
+[labels_to_cc] labels: bg(0)=818295  pred(1)=197513  ignore(2)=32768  other=0
+[labels_to_cc] foreground voxels: 197513 (18.8%)
+[labels_to_cc] running connected components (connectivity=6)
+[labels_to_cc] raw components: 16551
+[labels_to_cc] WARNING: 16551 components > 254, clamping to uint8 range
+[labels_to_cc] writing zarr to C:\Users\<user>\vesuvius\scratch-d7main\outb\cc.zarr
+[labels_to_cc] zarr written  shape=(64, 128, 128)  chunks=(64, 64, 64)
+[labels_to_cc] writing binary zarr to C:\Users\<user>\vesuvius\scratch-d7main\outb\bin.zarr
+[labels_to_cc] binary zarr written  shape=(64, 128, 128)  chunks=(64, 64, 64)
+[labels_to_cc] rendering 64 slices along z
+[labels_to_cc] encoding video to C:\Users\<user>\vesuvius\scratch-d7main\outb\cc.mp4  (64 frames, 15 fps)
+[labels_to_cc] video written: C:\Users\<user>\vesuvius\scratch-d7main\outb\cc.mp4
+[labels_to_cc] done — 16551 components
+branch: exit 0 after 0.8s
+cc.mp4 bytes 494405
+codec_name=h264
+width=128
+height=128
+nb_read_frames=64

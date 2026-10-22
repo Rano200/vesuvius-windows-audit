@@ -1,0 +1,16 @@
+### BRANCH (fix applied)
+..                                                                       [100%]
+2 passed in 0.13s
+### MAIN (original labels_to_cc_zarr.py)
+self = <test_labels_to_cc_zarr_video.EncodeVideoStderrTest testMethod=test_noisy_stderr_does_not_deadlock>
+
+    def test_noisy_stderr_does_not_deadlock(self) -> None:
+    	hung, result = self._run(rc=0)
+>   	self.assertFalse(hung, "_encode_video deadlocked on ffmpeg's stderr")
+E    AssertionError: True is not false : _encode_video deadlocked on ffmpeg's stderr
+
+lasagna\tests\test_labels_to_cc_zarr_video.py:73: AssertionError
+=========================== short test summary info ===========================
+FAILED lasagna\tests\test_labels_to_cc_zarr_video.py::EncodeVideoStderrTest::test_failure_still_reports_stderr
+FAILED lasagna\tests\test_labels_to_cc_zarr_video.py::EncodeVideoStderrTest::test_noisy_stderr_does_not_deadlock
+2 failed in 40.28s
