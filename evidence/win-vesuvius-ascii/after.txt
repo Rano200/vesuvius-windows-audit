@@ -1,0 +1,23 @@
+# branch (e2254ebe0)
+# env: PYTHONUTF8='' PYTHONIOENCODING='' (unset), Git Bash, stdout redirected to file
+$ PYTHONPATH=/c/Users/<user>/vesuvius/wt-win-vesuvius-ascii/vesuvius/src python -m vesuvius.image_proc.run.ced slice.tif out_dir --sample-results > out.txt 2> err.txt
+exit=1
+--- stdout file (415 bytes):
+No GPUs available. Processing will use CPU.
+Loading image: C:/Users/<user>/vesuvius/scratch-win-ascii/slice.tif
+Image shape: (256, 256), dtype: uint8
+Value range: [0.00, 187.00]
+
+Generating sample results with various parameter combinations...
+Output directory: C:/Users/<user>/vesuvius/scratch-win-ascii/runbranch/out_dir
+
+[1/8] Processing minimal_smoothing...
+  Parameters: lambda=0.2, sigma=1.0, rho=2.0
+--- stderr tail:
+    result = run_coherence_diffusion(
+        img_tensor,
+        sample_config,
+        show_progress=False,
+    )
+TypeError: 'module' object is not callable
+--- outputs: 0 files

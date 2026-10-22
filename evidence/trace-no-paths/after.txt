@@ -1,0 +1,59 @@
+AFTER: build of fix/trace-no-paths (1f17b47) from fork workflow_dispatch 39852257117, same data and args.
+
+avail MB: 1310; exe: C:\Users\<user>\vesuvius\winvc3d\fixbuild\trace-39852257117\x\VC3D-1f17b47-2026-10-22-win64\bin\vc_grow_seg_from_segments.exe; paths exists: False
+args: "C:\Users\<user>\vesuvius\winvc3d\guiproof\data\vol.zarr" "C:\Users\<user>\vesuvius\winvc3d\fixbuild\trace-proof\after-nopaths\paths" "C:\Users\<user>\vesuvius\winvc3d\fixbuild\trace-proof\after-nopaths\traces" "C:\Users\<user>\vesuvius\winvc3d\fixbuild\trace-proof\after-nopaths\traces\trace_params_ui.json" "C:\Users\<user>\vesuvius\winvc3d\guiproof\data\segs\segA"
+PID 32460
+exited, code 0
+--stdout
+gen 118 processing 12 fringe cands (total done 8 fringe: 9) area 160000 vx^2 (cm^2 unknown) best th: 0
+go with cands 12 inl_th 12
+gen 119 processing 12 fringe cands (total done 8 fringe: 9) area 160000 vx^2 (cm^2 unknown) best th: 0
+go with cands 12 inl_th 10
+gen 120 processing 12 fringe cands (total done 8 fringe: 9) area 160000 vx^2 (cm^2 unknown) best th: 0
+go with cands 12 inl_th 8
+gen 121 processing 12 fringe cands (total done 8 fringe: 9) area 160000 vx^2 (cm^2 unknown) best th: 0
+go with cands 12 inl_th 6
+gen 122 processing 12 fringe cands (total done 8 fringe: 9) area 160000 vx^2 (cm^2 unknown) best th: 0
+go with cands 12 inl_th 4
+gen 123 processing 12 fringe cands (total done 8 fringe: 9) area 160000 vx^2 (cm^2 unknown) best th: 0
+go with cands 12 inl_th 2
+gen 124 processing 12 fringe cands (total done 8 fringe: 0) area 160000 vx^2 (cm^2 unknown) best th: 0
+stopping growth after 5 expansions with no valid-count increase (valid=4)
+area est: 360000 vx^2 (cm^2 unknown: volume has no voxel size)
+--stderr
+Warning: source directory "C:\\Users\\<user>\\vesuvius\\winvc3d\\fixbuild\\trace-proof\\after-nopaths\\paths" does not exist; continuing with no existing segments
+--traces:
+auto_grown_20261022170849218
+auto_trace_20261022170849684
+inliers_sum.tif
+trace_params_ui.json
+
+=== same package, paths folder present (normal case) ===
+avail MB: 1245; exe: C:\Users\<user>\vesuvius\winvc3d\fixbuild\trace-39852257117\x\VC3D-1f17b47-2026-10-22-win64\bin\vc_grow_seg_from_segments.exe; paths exists: True
+args: "C:\Users\<user>\vesuvius\winvc3d\guiproof\data\vol.zarr" "C:\Users\<user>\vesuvius\winvc3d\fixbuild\trace-proof\after-paths\paths" "C:\Users\<user>\vesuvius\winvc3d\fixbuild\trace-proof\after-paths\traces" "C:\Users\<user>\vesuvius\winvc3d\fixbuild\trace-proof\after-paths\traces\trace_params_ui.json" "C:\Users\<user>\vesuvius\winvc3d\guiproof\data\segs\segA"
+PID 10148
+exited, code 0
+--stdout
+gen 118 processing 12 fringe cands (total done 8 fringe: 9) area 160000 vx^2 (cm^2 unknown) best th: 0
+go with cands 12 inl_th 12
+gen 119 processing 12 fringe cands (total done 8 fringe: 9) area 160000 vx^2 (cm^2 unknown) best th: 0
+go with cands 12 inl_th 10
+gen 120 processing 12 fringe cands (total done 8 fringe: 9) area 160000 vx^2 (cm^2 unknown) best th: 0
+go with cands 12 inl_th 8
+gen 121 processing 12 fringe cands (total done 8 fringe: 9) area 160000 vx^2 (cm^2 unknown) best th: 0
+go with cands 12 inl_th 6
+gen 122 processing 12 fringe cands (total done 8 fringe: 9) area 160000 vx^2 (cm^2 unknown) best th: 0
+go with cands 12 inl_th 4
+gen 123 processing 12 fringe cands (total done 8 fringe: 9) area 160000 vx^2 (cm^2 unknown) best th: 0
+go with cands 12 inl_th 2
+gen 124 processing 12 fringe cands (total done 8 fringe: 0) area 160000 vx^2 (cm^2 unknown) best th: 0
+stopping growth after 5 expansions with no valid-count increase (valid=4)
+area est: 360000 vx^2 (cm^2 unknown: volume has no voxel size)
+--stderr
+--traces:
+auto_grown_20261022170855185
+auto_trace_20261022170855797
+inliers_sum.tif
+trace_params_ui.json
+
+Output check: auto_trace x/y/z.tif md5 prefixes after-paths = after-nopaths (365da6dd2cd9 070a6a61e673 12d8187a72b6). The unfixed build's two runs with paths differ from each other (x.tif fc1cfcf50b25 vs b7eaefe087da), so runs are not byte-deterministic; compare valid count (valid=4) and file set instead, which match.

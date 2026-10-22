@@ -1,0 +1,10 @@
+# main e2254ebe0 + new test. venv: wt-1525 .venv (torch 2.14.1+cpu), PYTHONPATH=wt-ced-import/vesuvius/src. Other image_proc/structure_tensor tests can't be collected in this venv (cv2/nnunetv2 missing), so only the new file was run.
+$ pytest tests/image_proc/test_ced_cli.py
+=========================== short test summary info ===========================
+FAILED tests/image_proc/test_ced_cli.py::test_ced_name_is_callable - Assertio...
+FAILED tests/image_proc/test_ced_cli.py::test_ced_main_writes_output_tiff - T...
+2 failed in 2.26s
+
+# branch fix/ced-import
+..                                                                       [100%]
+2 passed in 2.38s

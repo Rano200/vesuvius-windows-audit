@@ -1,0 +1,22 @@
+# main (e2254ebe0)
+# env: PYTHONUTF8='' PYTHONIOENCODING='' (unset), Git Bash, stdout redirected to file
+$ PYTHONPATH=/c/Users/<user>/vesuvius/scratch-win-ascii/mainsrc/vesuvius/src python -m vesuvius.image_proc.run.ced slice.tif out_dir --sample-results > out.txt 2> err.txt
+exit=1
+--- stdout file (367 bytes):
+No GPUs available. Processing will use CPU.
+Loading image: C:/Users/<user>/vesuvius/scratch-win-ascii/slice.tif
+Image shape: (256, 256), dtype: uint8
+Value range: [0.00, 187.00]
+
+Generating sample results with various parameter combinations...
+Output directory: C:/Users/<user>/vesuvius/scratch-win-ascii/runmain/out_dir
+
+[1/8] Processing minimal_smoothing...
+--- stderr tail:
+    print(f"  Parameters: \u03bb={sample['lambda']}, \u03c3={sample['sigma']}, \u03c1={sample['rho']}")
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\<user>\AppData\Roaming\uv\python\cpython-3.14-windows-x86_64-none\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u03bb' in position 14: character maps to <undefined>
+--- outputs: 0 files

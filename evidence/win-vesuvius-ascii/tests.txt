@@ -1,0 +1,55 @@
+## NEW TEST on main (src stashed)
+    def test_print_literals_encode_in_cp1252(module):
+        bad = _bad_print_literals(SRC / module)
+>       assert not bad, f"{module}: print() text not encodable in cp1252 (line, chars): {bad}"
+E       AssertionError: utils/build_betti.py: print() text not encodable in cp1252 (line, chars): [(74, "'\\u2713'"), (76, "'\\u26a0'")]
+E       assert not [(74, "'\\u2713'"), (76, "'\\u26a0'")]
+
+tests\test_cli_print_encoding.py:44: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_cli_print_encoding.py::test_print_literals_encode_in_cp1252[image_proc/run/ced.py]
+FAILED tests/test_cli_print_encoding.py::test_print_literals_encode_in_cp1252[models/run/blending.py]
+FAILED tests/test_cli_print_encoding.py::test_print_literals_encode_in_cp1252[structure_tensor/create_st.py]
+FAILED tests/test_cli_print_encoding.py::test_print_literals_encode_in_cp1252[structure_tensor/create_vf.py]
+FAILED tests/test_cli_print_encoding.py::test_print_literals_encode_in_cp1252[tifxyz_label_transfer/self_render_tifxyz.py]
+FAILED tests/test_cli_print_encoding.py::test_print_literals_encode_in_cp1252[utils/build_betti.py]
+6 failed in 0.27s
+
+## NEW TEST on branch
+......                                                                   [100%]
+6 passed in 0.15s
+
+## EXISTING tests of touched modules (branch)
+
+=================================== ERRORS ====================================
+______ ERROR collecting tests/structure_tensor/test_structure_tensor.py _______
+ImportError while importing test module 'C:\Users\<user>\vesuvius\wt-win-vesuvius-ascii\vesuvius\tests\structure_tensor\test_structure_tensor.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+..\..\..\AppData\Roaming\uv\python\cpython-3.14-windows-x86_64-none\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\structure_tensor\test_structure_tensor.py:4: in <module>
+    import torch
+E   ModuleNotFoundError: No module named 'torch'
+=========================== short test summary info ===========================
+ERROR tests/structure_tensor/test_structure_tensor.py
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!
+..\..\..\AppData\Roaming\uv\python\cpython-3.14-windows-x86_64-none\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\structure_tensor\test_vf_io.py:3: in <module>
+    import torch
+E   ModuleNotFoundError: No module named 'torch'
+=========================== short test summary info ===========================
+ERROR tests/structure_tensor/test_structure_tensor.py
+ERROR tests/structure_tensor/test_vector_field.py
+ERROR tests/structure_tensor/test_vf_io.py
+!!!!!!!!!!!!!!!!!!! Interrupted: 3 errors during collection !!!!!!!!!!!!!!!!!!!
+3 errors in 4.75s
+FAILED tests/models/run/test_cli_flag_spelling.py::test_declarations_are_underscored[finalize_outputs]
+FAILED tests/models/run/test_cli_flag_spelling.py::test_predict_still_accepts_the_old_hyphenated_spellings[--zarr-compressor-zarr_compressor-lz4]
+FAILED tests/models/run/test_cli_flag_spelling.py::test_predict_still_accepts_the_old_hyphenated_spellings[--zarr-compression-level-zarr_compression_level-5]
+FAILED tests/models/run/test_cli_flag_spelling.py::test_predict_still_accepts_the_old_hyphenated_spellings[--read-retries-read_retries-9]
+FAILED tests/models/run/test_cli_flag_spelling.py::test_predict_rejects_malformed_bbox_with_usage_error
+12 failed, 45 passed in 13.37s

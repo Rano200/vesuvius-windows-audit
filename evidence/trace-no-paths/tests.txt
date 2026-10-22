@@ -1,0 +1,18 @@
+Fork CI for branch fix/trace-no-paths (1f17b47 = upstream main e2254eb + 1 commit), fork-internal PR Rano200/villa#7
+https://github.com/Rano200/villa/pull/7  (no PR or comment on ScrollPrize/villa)
+Fork main synced to upstream main e2254eb before the push.
+
+- 39852257117  VC3D Windows Installer  workflow_dispatch on fix/trace-no-paths  SUCCESS
+  Artifact VC3D-1f17b47-2026-10-22-win64.zip = the exe in after.txt (C:\Users\<user>\vesuvius\winvc3d\fixbuild\trace-39852257117)
+- 39852250592  VC3D Windows (pull_request)  SUCCESS
+- 39852250564  Continuous Integration (CI)  SUCCESS
+- 39852250611  VC3D Linux  SUCCESS;  39852250627  VC3D macOS  SUCCESS
+- 39852250605  CodeQL  SUCCESS;  39852250552  Test vesuvius Python  SUCCESS
+
+Before control: C:\Users\<user>\vesuvius\winvc3d\fixbuild\run-39819740280-main (unfixed, fork main 5f380c3).
+Before: no paths folder -> uncaught std::filesystem::filesystem_error, abort, exit code -1073740791 (0xC0000409).
+After : no paths folder -> warning on stderr, exit 0, auto_grown_* and auto_trace_* written.
+Normal case (paths\segA present): before exit 0, after exit 0, same outputs (valid=4, same file set).
+Both packages exited on their own; the D1 hang-at-exit did not occur for this tool.
+Note: local run 1 started at 801 MB available (below the 1200 MB bar); all later runs above it.
+No regression test added: Windows CI runs only ctest unified_browser_dialog, and this tool has no existing test target.

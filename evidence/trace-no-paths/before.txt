@@ -1,0 +1,45 @@
+BEFORE: unfixed control package (fork main 5f380c3, run 39819740280), vc_grow_seg_from_segments.exe run directly, args as CommandLineToolRunner builds them for Run Trace:
+  <volume> <paths dir> <traces dir> <params json> <segment>   (positional)
+Data: public PHercParis4 chunks, probe-5 project (guiproof\data: vol.zarr + segs\segA). Project has NO paths folder.
+
+avail MB: 801; exe: C:\Users\<user>\vesuvius\winvc3d\fixbuild\run-39819740280-main\x\VC3D-5f380c3-2026-10-22-win64\bin\vc_grow_seg_from_segments.exe; paths exists: False
+args: "C:\Users\<user>\vesuvius\winvc3d\guiproof\data\vol.zarr" "C:\Users\<user>\vesuvius\winvc3d\fixbuild\trace-proof\before-nopaths\paths" "C:\Users\<user>\vesuvius\winvc3d\fixbuild\trace-proof\before-nopaths\traces" "C:\Users\<user>\vesuvius\winvc3d\fixbuild\trace-proof\before-nopaths\traces\trace_params_ui.json" "C:\Users\<user>\vesuvius\winvc3d\guiproof\data\segs\segA"
+PID 30572
+exited, code -1073740791
+--stdout
+zarr dataset size for scale group 0 [4066,2264,2264,]
+chunk shape shape [128,128,128,]
+voxelsize: 0
+--stderr
+terminate called after throwing an instance of 'std::filesystem::__cxx11::filesystem_error'
+  what():  filesystem error: directory iterator cannot open directory: No such file or directory [C:\Users\<user>\vesuvius\winvc3d\fixbuild\trace-proof\before-nopaths\paths]
+--traces:
+trace_params_ui.json
+
+=== same package, paths folder present (normal case) ===
+avail MB: 1329; exe: C:\Users\<user>\vesuvius\winvc3d\fixbuild\run-39819740280-main\x\VC3D-5f380c3-2026-10-22-win64\bin\vc_grow_seg_from_segments.exe; paths exists: True
+args: "C:\Users\<user>\vesuvius\winvc3d\guiproof\data\vol.zarr" "C:\Users\<user>\vesuvius\winvc3d\fixbuild\trace-proof\before-paths\paths" "C:\Users\<user>\vesuvius\winvc3d\fixbuild\trace-proof\before-paths\traces" "C:\Users\<user>\vesuvius\winvc3d\fixbuild\trace-proof\before-paths\traces\trace_params_ui.json" "C:\Users\<user>\vesuvius\winvc3d\guiproof\data\segs\segA"
+PID 33116
+exited, code 0
+--stdout
+gen 119 processing 12 fringe cands (total done 8 fringe: 9) area 160000 vx^2 (cm^2 unknown) best th: 0
+go with cands 12 inl_th 12
+gen 120 processing 12 fringe cands (total done 8 fringe: 9) area 160000 vx^2 (cm^2 unknown) best th: 0
+go with cands 12 inl_th 10
+gen 121 processing 12 fringe cands (total done 8 fringe: 9) area 160000 vx^2 (cm^2 unknown) best th: 0
+go with cands 12 inl_th 8
+gen 122 processing 12 fringe cands (total done 8 fringe: 9) area 160000 vx^2 (cm^2 unknown) best th: 0
+go with cands 12 inl_th 6
+gen 123 processing 12 fringe cands (total done 8 fringe: 9) area 160000 vx^2 (cm^2 unknown) best th: 0
+go with cands 12 inl_th 4
+gen 124 processing 12 fringe cands (total done 8 fringe: 9) area 160000 vx^2 (cm^2 unknown) best th: 0
+go with cands 12 inl_th 2
+gen 125 processing 12 fringe cands (total done 8 fringe: 0) area 160000 vx^2 (cm^2 unknown) best th: 0
+stopping growth after 5 expansions with no valid-count increase (valid=4)
+area est: 360000 vx^2 (cm^2 unknown: volume has no voxel size)
+--stderr
+--traces:
+auto_grown_20261022165246706
+auto_trace_20261022165246943
+inliers_sum.tif
+trace_params_ui.json
