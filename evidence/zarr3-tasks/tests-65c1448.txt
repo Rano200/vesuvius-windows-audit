@@ -1,0 +1,19 @@
+# branch fix/zarr3-tasks 65c1448db, zarr 3.2.1, 2026-10-24
+$ uv run --frozen --no-sync pytest tests/image_proc -q -p no:cacheprovider
+......................                                                   [100%]
+============================== warnings summary ===============================
+tests/image_proc/test_zarr_tasks_create_levels.py::test_remap_creates_every_level_and_remaps_values
+tests/image_proc/test_zarr_tasks_create_levels.py::test_remap_creates_every_level_and_remaps_values
+tests/image_proc/test_zarr_tasks_create_levels.py::test_remap_copies_the_input_attributes_to_the_output
+tests/image_proc/test_zarr_tasks_create_levels.py::test_remap_copies_the_input_attributes_to_the_output
+    input_arr.compressor,
+tests/image_proc/test_zarr_tasks_create_levels.py::test_remap_creates_every_level_and_remaps_values
+tests/image_proc/test_zarr_tasks_create_levels.py::test_remap_creates_every_level_and_remaps_values
+tests/image_proc/test_zarr_tasks_create_levels.py::test_remap_copies_the_input_attributes_to_the_output
+tests/image_proc/test_zarr_tasks_create_levels.py::test_remap_copies_the_input_attributes_to_the_output
+tests/image_proc/test_zarr_tasks_create_levels.py::test_resize_creates_every_level_at_the_reference_shape
+tests/image_proc/test_zarr_tasks_create_levels.py::test_resize_creates_every_level_at_the_reference_shape
+    return self.async_array.compressor
+tests/image_proc/test_zarr_tasks_create_levels.py::test_resize_creates_every_level_at_the_reference_shape
+tests/image_proc/test_zarr_tasks_create_levels.py::test_resize_creates_every_level_at_the_reference_shape
+22 passed, 12 warnings in 7.76s
