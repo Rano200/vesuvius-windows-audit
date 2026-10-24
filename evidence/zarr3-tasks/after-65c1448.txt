@@ -1,0 +1,9 @@
+$ python -m vesuvius.image_proc.run.zarr_tasks --task remap --remap 255:2 --remap 0:1 --level 0 -n 1 in.zarr branch3/remap.zarr
+exit=0
+Level 0:   0%|          | 0/8 [00:00<?, ?it/s]Level 0:  12%|#2        | 1/8 [00:00<00:05,  1.27it/s]Level 0:  62%|######2   | 5/8 [00:00<00:00,  6.82it/s]Level 0: 100%|##########| 8/8 [00:01<00:00,  7.81it/s]
+$ python -m vesuvius.image_proc.run.zarr_tasks --task resize --reference ref.zarr -n 1 in.zarr branch3/resize.zarr
+exit=0
+Resolution 0:   0%|          | 0/8 [00:00<?, ?it/s]Resolution 0:  12%|#2        | 1/8 [00:00<00:05,  1.25it/s]Resolution 0:  50%|#####     | 4/8 [00:00<00:00,  5.60it/s]Resolution 0: 100%|##########| 8/8 [00:01<00:00, 11.57it/s]Resolution 0: 100%|##########| 8/8 [00:01<00:00,  7.94it/s]
+# branch 65c1448db, zarr 3.2.1
+remap out   shape=(256, 256, 256) dtype=uint8 sha=cea2cfb1d5f28647 equals_table_lookup=True attrs=['multiscales']
+resize out  shape=(192, 192, 192) dtype=uint8 mean=111.92 (input mean 112.15) sha=78267e6797cfd3dc
